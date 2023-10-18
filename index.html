@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Node.js and Database</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
+    rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+    crossorigin="anonymous">
+    <style>
+        .form-container {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h3><%= title %></h3>
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">id</th>
+                <th scope="col">Nama</th>
+                <th scope="col">No_RFID</th>
+                <th scope="col">Email</th>
+                <th scope="col">Password</th>
+                <th scope="col">Peran</th>
+              </tr>
+            </thead>
+            <tbody>
+            <% for(let user of users){ %>
+                <tr>
+                    <th scope="row"><%= user.ID %></th>
+                    <th scope="row"><%= user.Nama %></th>
+                    <th scope="row"><%= user.No_RFID %></th>
+                    <th scope="row"><%= user.Email %></th>
+                    <th scope="row"><%= user.Password %></th>
+                    <th scope="row"><%= user.Peran %></th>
+                </tr> 
+            <% } %>
+            </tbody>
+        </table>
+        <div class="form-container">
+            <form action="/tambah" method="post">
+                <h2>Tambah User Baru</h2>
+                <div class="row mb-3">
+                    <label for="Nama" class="col-sm-2 col-form-label">Nama Lengkap</label>
+                    <div class="col-sm-10">
+                        <input type="text" name="Nama" class="form-control">
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="No_RFID" class="col-sm-2 col-form-label">No. RFID</label>
+                    <div class="col-sm-10">
+                        <input type="text" name="No_RFID" class="form-control">
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="Email" class="col-sm-2 col-form-label">Email</label>
+                    <div class="col-sm-10">
+                        <input type="email" name="Email" class="form-control">
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="Password" class="col-sm-2 col-form-label">Password</label>
+                    <div class="col-sm-10">
+                        <input type="password" name="Password" class="form-control">
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="Peran" class="col-sm-2 col-form-label">Peran</label>
+                    <div class="col-sm-10">
+                        <select name="Peran" class="form-select">
+                            <option selected>Pilih...</option>
+                            <option value="Mahasiswa">Mahasiswa</option>
+                            <option value="Dosen">Dosen</option>
+                            <option value="Admin">Admin</option>
+                        </select>
+                    </div>
+                </div>
+                <input type="submit" class="btn btn-primary" value="Tambah">
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+</body>
+</html>
