@@ -13,35 +13,30 @@ mysql = MySQL(app)
 
 app.secret_key = 'your_secret_key'
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/')
+def home():
+        return render_template('templates.html')
+        
+@app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         username = request.form['username']
-        password = request.form['pass']  # Ganti 'password' dengan 'pass' sesuai dengan nama yang didefinisikan di form HTML
+        password = request.form['pass']
         cur = mysql.connection.cursor()
         cur.execute("SELECT * FROM user WHERE username = %s AND password = %s", (username, password))
         user = cur.fetchone()
         cur.close()
         if user:
             session['username'] = user['username']
-            flash('Login successful', 'success')  # Menambahkan pesan sukses
-            return redirect(url_for('dashboard'))
+            return redirect(url_for('home'))
         else:
-            flash('Login failed. Please check your username and password.', 'danger')
             return redirect(url_for('login'))
     return render_template('index.html')
 
-@app.route('/dashboard')
-def dashboard():
-    if 'username' in session:
-        return render_template('dashboard.html', username=session['username'])
-    else:
-        return redirect(url_for('login'))
 
 @app.route('/logout')
 def logout():
     session.pop('username', None)
-    flash('You have been logged out', 'success')  # Mengubah pesan logout
     return redirect(url_for('login'))
 
 if __name__ == '__main__':
