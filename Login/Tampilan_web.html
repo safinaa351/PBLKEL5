@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Smart Lock Door</title>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="/static/css/style.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <script src="https://kit.fontawesome.com/PLEASE_USE_YOUR_OWN.js" crossorigin="anonymous"></script>
     <link
@@ -61,12 +61,8 @@
                         <span class="user-initials"></span>
                       </button>
                       <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="userDropdown">
-                        <li><a class="dropdown-item" href="#">Profil</a></li>
-                        <li>
-                          <a class="dropdown-item" href="#">Pengaturan</a>
-                        </li>
-                        <li><hr class="dropdown-divider" /></li>
-                        <li><a class="dropdown-item" href="#">Keluar</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('login') }}">Login</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('logout') }}">Logout</a></li>
                       </ul>
                     </div>
                   </div>
@@ -115,20 +111,6 @@
       <div class="hero-content">
         <h1>Selamat Datang di Aplikasi Web Kami</h1>
         <p>Deskripsi singkat tentang aplikasi Anda.</p>
-        <div class="btn-group">
-          <button type="button" class="btn btn-primary">Mulai </button>
-          <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false" data-bs-reference="parent">
-            <span class="visually-hidden">Toggle Dropdown</span>
-          </button>
-          <ul class="dropdown-menu dropdown-menu-dark">
-            <li><a class="dropdown-item" href="#">Login</a></li>
-            <li><a class="dropdown-item" href="#">Admin</a></li>
-            <li><a class="dropdown-item" href="#">daftar</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Fitur Utama</a></li>
-          </ul>
-        </div>
-      </div>
       </div>
     </section>
 
@@ -242,7 +224,7 @@
 
       <a>Hak Cipta © 2023 Kelompok 5 Politeknik Negeri Jakarta</a>
       <div class="wp-block-joinchat-button">
-        <a href="https://wa.me/xxxxxxxxxx" class="joinchat-button-wa">
+        <a href="https://wa.me/6285882425309" class="joinchat-button-wa">
           <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTlJ_xAG1GftfIvrKN4ERQ2EbdvGCLrOnTlPQ&usqp=CAU" alt="WhatsApp Icon" class="whatsapp-icon">
         </a>
       </div>        
