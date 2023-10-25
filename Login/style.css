@@ -168,7 +168,7 @@ li.dropdown:hover .dropdown-content {
   #searchQueryInput {
       border: none;
       background: none;
-      width: 80%;
+      width: 89%;
       color: white; /* Mengubah warna teks menjadi putih */
   }
 
@@ -227,7 +227,10 @@ li.dropdown:hover .dropdown-content {
     cursor: pointer;
     transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   }
-  
+  .wrapper .icon a {
+    color: white; /* Mengatur warna ikon menjadi putih */
+    text-decoration: none; /* Menghilangkan garis bawah tautan */
+  }
   .wrapper .tooltip {
     position: absolute;
     top: 0;
@@ -269,7 +272,7 @@ li.dropdown:hover .dropdown-content {
   .wrapper .facebook:hover,
   .wrapper .facebook:hover .tooltip,
   .wrapper .facebook:hover .tooltip::before {
-    background: #1877F2;
+    background: #026af1;
     color: #ffffff;
   }
   
