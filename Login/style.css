@@ -24,10 +24,9 @@ nav ul li {
 }
 
 .hero {
-    background-image: url('https://www.rfidcard.com/wp-content/uploads/2020/09/Combining-Blockchain-with-Near-Field-CommunicationsNFC-1024x585.jpg');
-    background-size:contain;
+    background-image: url('https://www.fountain.com/wp-content/uploads/2021/02/628bae62f5026718fe34d71e_technology.jpeg');
+    background-size:cover;
     text-align: center;
-    padding: 0px ;
     color: #c7c7c7;
 }
 
@@ -131,15 +130,11 @@ li.dropdown:hover .dropdown-content {
       width: 100%;
       height: 100%;
     }
- 
-    .wp-block-joinchat-button {
-      text-align:center;
-    }
-    
+
     .wp-block-joinchat-button .joinchat-button-wa {
       display: inline-block;
       background-color: #12d612d5; /* Warna hijau WhatsApp */
-      border-radius: 50%; /* Membuat tombol bulat */
+      border-radius: 20%; /* Membuat tombol bulat */
       text-decoration: none;
       padding: 5px;
     }
@@ -148,5 +143,48 @@ li.dropdown:hover .dropdown-content {
       width: 20px; /* Sesuaikan ukuran ikon sesuai kebutuhan */
       height: 20px;
       display: block;
-      margin: 0 auto;
+      margin: auto;
     }
+    /*________________________________*/
+
+    .wp-block-joinchat-button-2 {
+      text-align:left;
+    }
+    .wp-block-joinchat-button-2 .instagram-icon{
+      width: 30px; /* Sesuaikan ukuran ikon sesuai kebutuhan */
+      height: 30px;
+      display: block;
+      margin:  auto;
+    }
+
+    /*________________________________*/
+
+
+    #search-form {
+      background: rgba(0, 0, 0, 0.123); /* Latar belakang hitam dengan tingkat transparansi */
+      border-radius: 20px;
+      padding: 10px;
+  }
+
+  #searchQueryInput {
+      border: none;
+      background: none;
+      width: 80%;
+      color: white; /* Mengubah warna teks menjadi putih */
+  }
+
+  #searchQueryInput:focus {
+      outline: none;
+  }
+
+  #searchQuerySubmit {
+      background: none;
+      border: none;
+      cursor: pointer;
+  }
+
+  #searchQuerySubmit svg {
+      width: 24px;
+      height: 24px;
+      fill: rgb(255, 255, 255); /* Mengubah warna logo "Search" menjadi putih */
+  }
