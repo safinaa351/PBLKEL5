@@ -273,17 +273,17 @@ li.dropdown:hover .dropdown-content {
     color: #ffffff;
   }
   
-  .wrapper .tiktok:hover,
-  .wrapper .tiktok:hover .tooltip,
-  .wrapper .tiktok:hover .tooltip::before {
-    background: #000000;
-    color: #ffffff;
+  .wrapper .whatsapp:hover,
+  .wrapper .whatsapp:hover .tooltip,
+  .wrapper .whatsapp:hover .tooltip::before {
+    background: #1cb907;
+    color: #edf5ec;
   }
   
   .wrapper .instagram:hover,
   .wrapper .instagram:hover .tooltip,
   .wrapper .instagram:hover .tooltip::before {
-    background: #7a21b6;
+    background: #fc024d;
     color: #ffffff;
   }
   
