@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Smart Lock Door</title>
-    <link rel="stylesheet" href="/static/css/style.css" />
+    <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <script src="https://kit.fontawesome.com/PLEASE_USE_YOUR_OWN.js" crossorigin="anonymous"></script>
     <link
@@ -25,6 +25,14 @@
       <nav class="navbar navbar-dark bg-dark fixed-top">
         <div class="container-fluid">
           <a class="navbar-brand" href="#">Smart Door Lock</a>
+          <form id="search-form" class="d-flex mt-3" role="search">
+            <input id="searchQueryInput" type="text" name="searchQueryInput" placeholder="Search">
+            <button id="searchQuerySubmit" type="submit" name="searchQuerySubmit">
+                <svg style="width: 20px; height: 20px;" viewBox="0 0 24 24">
+                  <path fill="#666666" d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z"></path></svg>
+            </button>
+          </form>
+        
           <button
             class="navbar-toggler"
             type="button"
@@ -93,14 +101,6 @@
                   </ul>
                 </li>
               </ul>
-              <form class="d-flex mt-3" role="search">
-                <input
-                  class="form-control me-2"
-                  type="search"
-                  placeholder="Search"
-                  aria-label="Search" />
-                <button class="btn btn-success" type="submit">Search</button>
-              </form>
             </div>
           </div>
         </div>
@@ -110,7 +110,7 @@
     <section class="hero">
       <div class="hero-content">
         <h1>Selamat Datang di Aplikasi Web Kami</h1>
-        <p>Deskripsi singkat tentang aplikasi Anda.</p>
+        <p>Smart Door lock berbasis NFC dengan sensor RFID.</p>
       </div>
     </section>
 
@@ -123,7 +123,7 @@
       </div>
     </section>
 
-    <div id="carouselExampleCaptions" class="carousel slide">
+    <!--<div id="carouselExampleCaptions" class="carousel slide">
       <div class="carousel-indicators">
         <button
           type="button"
@@ -175,6 +175,7 @@
           </div>
         </div>
       </div>
+    -->
       <button
         class="carousel-control-prev"
         type="button"
@@ -210,7 +211,7 @@
           <img src="https://www.security101.com/hs-fs/hub/375807/file-2018549612-jpg/blog-attachments/access-nfc-blog.jpg"width="200" height="150" />
         </a>
       </div>
-      <div class="feature">
+      <!--<div class="feature">
         <h2>Fitur 3</h2>
         <p>History Log</p>
         <a href="URL_GAMBAR_FITUR_3">
@@ -218,17 +219,27 @@
           
         </a>
       </div>
+    -->
     </section>
 
     <footer>
 
       <a>Hak Cipta © 2023 Kelompok 5 Politeknik Negeri Jakarta</a>
-      <div class="wp-block-joinchat-button">
-        <a href="https://wa.me/6285882425309" class="joinchat-button-wa">
-          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTlJ_xAG1GftfIvrKN4ERQ2EbdvGCLrOnTlPQ&usqp=CAU" alt="WhatsApp Icon" class="whatsapp-icon">
+      
+      <div class="hstack gap-3">
+        <div class="p-2"><div class="wp-block-joinchat-button">
+          <a href="https://wa.me/6285882425309" class="joinchat-button-wa">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTlJ_xAG1GftfIvrKN4ERQ2EbdvGCLrOnTlPQ&usqp=CAU" alt="WhatsApp Icon" class="whatsapp-icon">
+          </a>
+        </div>
+      </div>
+        <div class="p-2"><div class="wp-block-joinchat-button-2">
+          <a href="#" class="joinchat-button-ig">
+          <img src="https://static.vecteezy.com/system/resources/previews/024/170/870/original/instagram-icon-logo-symbol-free-png.png" alt="instagram-icon" class="instagram-icon">
         </a>
-      </div>        
-    </div>
+      </div>  
+        </div>
+      </div>
     </footer>
     <script src="script.js"></script>
   </body>
