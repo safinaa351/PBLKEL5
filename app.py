@@ -45,9 +45,8 @@ def logout():
     session.pop("username", None)
     return redirect(url_for("login"))
 
-@app.route("/search")
-def search():
-    # cari data di database berdasarkan keyword yang dicari oleh pengguna
+@app.route("/update")
+def update():
     pass
 
 if __name__ == "__main__":
