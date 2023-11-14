@@ -55,3 +55,7 @@ def delete():
 @app.route('/add')
 def add():
     pass
+
+@app.route('/edit')
+def edit():
+    pass
