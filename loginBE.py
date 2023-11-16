@@ -35,7 +35,7 @@ def login():
 @app.route('/dashboard')
 def dashboard():
     if 'username' in session:
-        return render_template('dashboard.html', username=session['username'])
+        return render_template('Tampilan_web.html', username=session['username'])
     else:
         return redirect(url_for('login'))
 
