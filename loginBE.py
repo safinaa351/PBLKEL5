@@ -34,9 +34,6 @@ class MyApp(Flask):
     def add(self):
         pass
 
-    #def comment(self):
-     #   pass
-
     def login(self):
         if request.method == 'POST':
             username = request.form['username']
