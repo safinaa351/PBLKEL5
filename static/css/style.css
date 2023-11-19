@@ -1,0 +1,86 @@
+/* style.css */
+
+body {
+  background: url('/static/images/bg2.jpg');
+  align-items: center;
+}
+header {
+  background-color: #464242;
+  color: #3b296e;
+  padding: 20px;
+  font-family: 'Share Tech Mono', monospace;
+  
+}
+
+
+.hero {
+  text-align: center;
+  color: #c7c7c7;
+}
+
+.hero-content {
+  background: rgba(0, 0, 0, 0.6);
+  padding: 50px;
+  border-radius: 5px;
+  font-family: 'Share Tech Mono', monospace;
+}
+footer {
+  background-color: #1e1e20;
+  color: #fff;
+  text-align: center;
+  padding: 10px;
+}
+
+ 
+.room-container {
+  display: flex;
+  border: 1px ;
+  justify-content: center;
+}
+
+.room-image-box {
+  margin-right: 0px;
+}
+
+.room-image {
+
+  width: 600px;
+  height: 600px;
+  display: block;
+  max-height: 400px; /* Atur tinggi maksimum gambar */
+  border-radius: 8px 0 0 8px; /* Memutar sudut atas gambar */
+}
+
+.room-info-box {
+
+  flex: 0;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 0 8px 8px 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+}
+
+.room-info {
+  margin-bottom: 10px;
+}
+
+.status-box {
+max-width: 4000px;
+    padding: 0px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    text-align: center;
+}
+
+.status-open {
+  background-color: #28a745;
+  color: #fff;
+}
+
+.status-closed {
+  background-color: #dc3545;
+  color: #fff;
+}
