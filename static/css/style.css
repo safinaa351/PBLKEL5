@@ -1,30 +1,20 @@
 /* style.css */
 
 body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  
+  background: url("/static/images/bg3.jpg");
+  display: flex;
+  flex-direction:column;
+  align-items: center;
 }
-
 header {
-  background-color: #474444;
+  background-color: #464242;
   color: #3b296e;
   padding: 20px;
-}
+  font-family: 'Share Tech Mono', monospace;}
 
-nav ul {
-  list-style: none;
-  padding: 0;
-}
-
-nav ul li {
-  display: inline;
-  margin-right: 20px;
-}
 
 .hero {
-  background-image: url('https://www.fountain.com/wp-content/uploads/2021/02/628bae62f5026718fe34d71e_technology.jpeg');
+  background-image: url("/static/images/bg2.jpg");
   background-size:cover;
   text-align: center;
   color: #c7c7c7;
@@ -34,131 +24,14 @@ nav ul li {
   background: rgba(0, 0, 0, 0.6);
   padding: 50px;
   border-radius: 5px;
+  font-family: 'Share Tech Mono', monospace;
 }
-
-
-.features {
-  display: flex;
-  background-image: url(https://cssnectar.com/wp-content/plugins/yith-maintenance-mode/assets/images/skin4/bg-pattern.png);
-  justify-content: center;
-  align-items: center;
-  padding: 50px 0;
-
-}
-
-.feature {
-  text-align: center;
-  margin: 20px;
-}
-
-.contact {
-  background-color: #97aeeb;
-  text-align: center;
-  padding: 100px 0;
-}
-
-.contact-content {
-  padding: 20px;
-  border-radius: 5px;
-}
-
 footer {
-  background-color: #333;
+  background-color: #1e1e20;
   color: #fff;
   text-align: center;
   padding: 10px 0;
 }
-
-.rounded-circle {
-  border-radius: 50%;
- }
- .user-dropdown img {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
- }
- 
-/* Style the dropdown button */
-.dropbtn {
-cursor: pointer;
-}
-
-/* Style the dropdown content (hidden by default) */
-.dropdown-content {
-display: none;
-position: absolute;
-background-color: #f9f9f9;
-min-width: 160px;
-box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-}
-
-/* Style the dropdown items */
-.dropdown-content a {
-padding: 12px 16px;
-text-decoration: none;
-display: block;
-}
-
-/* Change color on hover */
-.dropdown-content a:hover {
-background-color: #f1f1f1;
-}
-
-/* Show the dropdown menu when hovering over the parent list item */
-li.dropdown:hover .dropdown-content {
-display: block;
-}
-
-.video {
-    display: flex;
-    justify-content: center;
-  }
-
-  .video-container {
-    position: relative;
-    width: 100%;
-    padding-top: 56.25%; /* 16:9 aspect ratio for responsive video */
-  }
-
-  .video-container iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-  }
-
-  /*.wp-block-joinchat-button .joinchat-button-wa {
-    display: inline-block;
-    background-color: #12d612d5; 
-    border-radius: 20%; 
-    text-decoration: none;
-    padding: 5px;
-  }
-
-  
-  /*.wp-block-joinchat-button .whatsapp-icon,.instagram-icon,.telegram-icon{
-    width: 20px; 
-    height: 20px;
-    display: block;
-    margin: auto;
-  }
-  /*________________________________*/
-
-  /*.wp-block-joinchat-button-2 {
-    text-align:left;
-  }
-  .wp-block-joinchat-button-2 .instagram-icon{
-    width: 30px; 
-    height: 30px;
-    display: block;
-    margin:  auto;
-  }
-  */
-
   #search-form {
     background: rgba(0, 0, 0, 0.123); /* Latar belakang hitam dengan tingkat transparansi */
     border-radius: 20px;
@@ -188,112 +61,51 @@ display: block;
     fill: rgb(255, 255, 255); /* Mengubah warna logo "Search" menjadi putih */
 }
 
-/*=================================================================================*/
 
-
-@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-*:focus,
-*:active {
-  outline: none !important;
-  -webkit-tap-highlight-color: transparent;
-}
-
-.wrapper {
-  display: inline-flex;
-  list-style: none;
-}
-
-.wrapper .icon {
-  position: relative;
-  background: #ffffff;
-  border-radius:15px;
-  padding: 15px;
-  margin: 10px;
-  width: 50px;
-  height: 50px;
-  font-size: 18px;
+.room-container {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
-  cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-}
-.wrapper .icon a {
-  color: white; /* Mengatur warna ikon menjadi putih */
-  text-decoration: none; /* Menghilangkan garis bawah tautan */
-}
-.wrapper .tooltip {
-  position: absolute;
-  top: 0;
-  font-size: 14px;
-  background: #ffffff;
-  color: #ffffff;
-  padding: 5px 8px;
-  border-radius: 5px;
-  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
-  opacity: 0;
-  pointer-events: none;
-  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  margin: 10px;
 }
 
-.wrapper .tooltip::before {
-  position: absolute;
-  content: "";
-  height: 8px;
-  width: 8px;
-  background: #ffffff;
-  bottom: -3px;
-  left: 50%;
-  transform: translate(-50%) rotate(45deg);
-  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+.room-image-box {
+
+  margin-right: 20px;
 }
 
-.wrapper .icon:hover .tooltip {
-  top: -45px;
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
+.room-image {
+  width: 100%; /* Gambar memenuhi lebar kontainer */
+  max-height: 200px; /* Atur tinggi maksimum gambar */
+  border-radius: 8px 0 0 8px; /* Memutar sudut atas gambar */
 }
 
-.wrapper .icon:hover span,
-.wrapper .icon:hover .tooltip {
-  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.1);
+.room-info-box {
+  flex: 0;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 0 8px 8px 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.wrapper .facebook:hover,
-.wrapper .facebook:hover .tooltip,
-.wrapper .facebook:hover .tooltip::before {
-  background: #026af1;
-  color: #ffffff;
+.room-info {
+  margin-bottom: 10px;
 }
 
-.wrapper .whatsapp:hover,
-.wrapper .whatsapp:hover .tooltip,
-.wrapper .whatsapp:hover .tooltip::before {
-  background: #1cb907;
-  color: #edf5ec;
+.status-box {
+max-width: 4000px;
+    padding: 0px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    text-align: center;
 }
 
-.wrapper .instagram:hover,
-.wrapper .instagram:hover .tooltip,
-.wrapper .instagram:hover .tooltip::before {
-  background: #fc024d;
-  color: #ffffff;
+.status-open {
+  background-color: #28a745;
+  color: #fff;
 }
 
-.wrapper .youtube:hover,
-.wrapper .youtube:hover .tooltip,
-.wrapper .youtube:hover .tooltip::before {
-  background: #CD201F;
-  color: #ffffff;
+.status-closed {
+  background-color: #dc3545;
+  color: #fff;
 }
-
