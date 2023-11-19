@@ -1,59 +1,67 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, flash
 from flask_mysqldb import MySQL
 
-class MyApp(Flask):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+app = Flask(__name__)
 
-        self.config['MYSQL_HOST'] = 'localhost'
-        self.config['MYSQL_USER'] = 'root'
-        self.config['MYSQL_PASSWORD'] = ''
-        self.config['MYSQL_DB'] = 'flask_login'
-        self.config['MYSQL_CURSORCLASS'] = 'DictCursor'
+app.config["MYSQL_HOST"] = "localhost"
+app.config["MYSQL_USER"] = "root"
+app.config["MYSQL_PASSWORD"] = ""
+app.config["MYSQL_DB"] = "flask_login"
+app.config["MYSQL_CURSORCLASS"] = "DictCursor"
 
-        self.mysql = MySQL(self)
+mysql = MySQL(app)
 
-        self.secret_key = 'pblkelompok5'
+app.secret_key = "your_secret_key"
 
-        self.add_routes()
 
-    def add_routes(self):
-        self.add_route('/', 'home', view_func=self.home)
-        self.add_route('/addusr', 'add', view_func=self.add)
-        self.add_route('/login', 'login', methods=['GET', 'POST'], view_func=self.login)
-        self.add_route('/logout', 'logout', view_func=self.logout)
+class User:
+    def __init__(self, username, password):
+        self.username = username
+        self.password = password
 
-    def add_route(self, rule, endpoint=None, view_func=None, **options):
-        if endpoint is None:
-            endpoint = view_func.__name__
-        self.route(rule, endpoint=endpoint, **options)(view_func)
+    def find_user_by_credentials(self, username, password):
+        cur = mysql.connection.cursor()
+        cur.execute(
+            "SELECT * FROM user WHERE username = %s AND password = %s",
+            (username, password),
+        )
+        user_data = cur.fetchone()
+        cur.close()
+        if user_data:
+            return User(username=user_data["username"], password=user_data["password"])
+        return None
 
-    def home(self):
-        return render_template('Tampilan_web.html')
 
-    def add(self):
-        pass
+@app.route("/")
+def home():
+    return render_template("Tampilan_web.html")
 
-    def login(self):
-        if request.method == 'POST':
-            username = request.form['username']
-            password = request.form['pass']
-            cur = self.mysql.connection.cursor()
-            cur.execute("SELECT * FROM user WHERE username = %s AND password = %s", (username, password))
-            user = cur.fetchone()
-            cur.close()
-            if user:
-                session['username'] = user['username']
-                return redirect(url_for('home'))
-            else:
-                return redirect(url_for('login'))
-        return render_template('index.html')
 
-    def logout(self):
-        session.pop('username', None)
-        return redirect(url_for('home'))
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["pass"]
+        user_instance = User(username, password)
+        found_user = user_instance.find_user_by_credentials(username, password)
+        if found_user:
+            session["username"] = found_user.username
+            return redirect(url_for("home"))
+        else:
+            flash("Username or Password is incorrect", "error")
+            return redirect(url_for("login"))
+    return render_template("login.html")
 
-app = MyApp(__name__)
 
-if __name__ == '__main__':
+@app.route("/logout")
+def logout():
+    session.pop("username", None)
+    return redirect(url_for("login"))
+
+
+@app.route("/update")
+def update():
+    pass
+
+if __name__ == "__main__":
     app.run(debug=True)
