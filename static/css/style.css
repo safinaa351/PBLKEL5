@@ -84,3 +84,52 @@ max-width: 4000px;
   background-color: #dc3545;
   color: #fff;
 }
+
+.text-container{
+ background-color: #6f6f7025;
+ width: 1685px;
+  height: 400px;
+ color: #fff;
+ padding: 40px 0;
+}
+.features {
+  display: flex;
+  justify-content: space-between; /* Mengatur agar fitur-fitur berjejer dengan jarak yang sama di antara mereka */
+  flex-wrap: wrap; /* Memastikan fitur-fitur dapat melintas ke baris baru jika tidak cukup ruang */
+  margin-bottom: 40px;
+}
+
+.feature {
+  width: calc(33.33% - 20px); /* Memberikan lebar sekitar 33.33% untuk setiap fitur */
+  margin-bottom: 20px;
+  text-align: center;
+  padding: 0 10px;
+  box-sizing: border-box; /* Memastikan padding tidak memengaruhi lebar total elemen */
+  
+}
+
+/* CSS for how-it-works */
+.how-it-works {
+  text-align: center;
+  margin: 0 auto; /* Menengahkan bagian "How It Works" */
+  max-width: 600px; /* Mengatur lebar maksimum agar tidak terlalu lebar */
+  padding: 0 20px; /* Memberikan sedikit padding di sisi kiri dan kanan */
+  margin-bottom: 40px;
+}
+
+
+/* CSS for footer */
+.footer {
+  display: flex;
+  justify-content: center; /* Untuk menengahkan konten secara horizontal */
+  align-items: center; /* Untuk menengahkan konten secara vertikal */
+  background-color: #000000;
+  color: #fff; /* Warna teks pada footer */
+  text-align: center; /* Menengahkan teks di dalam footer */
+  bottom: 0; /* Menempatkan footer di bagian bawah halaman */
+  width: 100%; /* Menggunakan lebar 100% agar footer menempati seluruh lebar layar */
+}
+
+.footer .copy {
+  color: #fff;
+}
