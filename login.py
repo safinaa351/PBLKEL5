@@ -19,7 +19,7 @@ class User:
         self.username = username
         self.password = password
 
-    def find_user_by_credentials(self, username, password):
+    def authentication(self, username, password):
         cur = mysql.connection.cursor()
         cur.execute(
             "SELECT * FROM user WHERE username = %s AND password = %s",
@@ -45,8 +45,8 @@ def login():
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
-        user_instance = User(username, password)
-        found_user = user_instance.find_user_by_credentials(username, password)
+        user = User(username, password)
+        found_user = user.authentication(username, password)
         if found_user:
             session["username"] = found_user.username
             return redirect(url_for("admin"))
@@ -69,4 +69,4 @@ def update():
 if __name__ == "__main__":
     app.run(debug=True)
 
-#test update
+#test

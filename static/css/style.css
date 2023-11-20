@@ -1,21 +1,19 @@
-/* style.css */
+@import url("https://fonts.googleapis.com/css2?family=Sriracha&display=swap");
 
 body {
-  background: url("/static/images/bg3.jpg");
-  display: flex;
-  flex-direction:column;
+  background: url('/static/images/bg2.jpg');
   align-items: center;
 }
 header {
   background-color: #464242;
   color: #3b296e;
   padding: 20px;
-  font-family: 'Share Tech Mono', monospace;}
+  font-family: 'Share Tech Mono', monospace;
+  
+}
 
 
 .hero {
-  background-image: url("/static/images/bg2.jpg");
-  background-size:cover;
   text-align: center;
   color: #c7c7c7;
 }
@@ -30,60 +28,37 @@ footer {
   background-color: #1e1e20;
   color: #fff;
   text-align: center;
-  padding: 10px 0;
-}
-  #search-form {
-    background: rgba(0, 0, 0, 0.123); /* Latar belakang hitam dengan tingkat transparansi */
-    border-radius: 20px;
-    padding: 10px;
+  padding: 10px;
 }
 
-#searchQueryInput {
-    border: none;
-    background: none;
-    width: 89%;
-    color: white; /* Mengubah warna teks menjadi putih */
-}
-
-#searchQueryInput:focus {
-    outline: none;
-}
-
-#searchQuerySubmit {
-    background: none;
-    border: none;
-    cursor: pointer;
-}
-
-#searchQuerySubmit svg {
-    width: 24px;
-    height: 24px;
-    fill: rgb(255, 255, 255); /* Mengubah warna logo "Search" menjadi putih */
-}
-
-
+ 
 .room-container {
   display: flex;
-  margin: 10px;
+  border: 1px ;
+  justify-content: center;
 }
 
 .room-image-box {
-
-  margin-right: 20px;
+  margin-right: 0px;
 }
 
 .room-image {
-  width: 100%; /* Gambar memenuhi lebar kontainer */
-  max-height: 200px; /* Atur tinggi maksimum gambar */
+
+  width: 600px;
+  height: 600px;
+  display: block;
+  max-height: 400px; /* Atur tinggi maksimum gambar */
   border-radius: 8px 0 0 8px; /* Memutar sudut atas gambar */
 }
 
 .room-info-box {
+
   flex: 0;
   padding: 20px;
   background-color: #ffffff;
   border-radius: 0 8px 8px 0;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
 }
 
 .room-info {
@@ -107,5 +82,54 @@ max-width: 4000px;
 
 .status-closed {
   background-color: #dc3545;
+  color: #fff;
+}
+
+.text-container{
+ background-color: #6f6f7025;
+ width: auto;
+ height: auto;
+ color: #fff;
+ padding: 40px 0;
+}
+.features {
+  display: flex;
+  justify-content: space-between; /* Mengatur agar fitur-fitur berjejer dengan jarak yang sama di antara mereka */
+  flex-wrap: wrap; /* Memastikan fitur-fitur dapat melintas ke baris baru jika tidak cukup ruang */
+  margin-bottom: 40px;
+}
+
+.feature {
+  width: calc(33.33% - 20px); /* Memberikan lebar sekitar 33.33% untuk setiap fitur */
+  margin-bottom: 20px;
+  text-align: center;
+  padding: 0 10px;
+  box-sizing: border-box; /* Memastikan padding tidak memengaruhi lebar total elemen */
+  
+}
+
+/* CSS for how-it-works */
+.how-it-works {
+  text-align: center;
+  margin: 0 auto; /* Menengahkan bagian "How It Works" */
+  max-width: 600px; /* Mengatur lebar maksimum agar tidak terlalu lebar */
+  padding: 0 20px; /* Memberikan sedikit padding di sisi kiri dan kanan */
+  margin-bottom: 40px;
+}
+
+
+/* CSS for footer */
+.footer {
+  display: flex;
+  justify-content: center; /* Untuk menengahkan konten secara horizontal */
+  align-items: center; /* Untuk menengahkan konten secara vertikal */
+  background-color: #000000;
+  color: #fff; /* Warna teks pada footer */
+  text-align: center; /* Menengahkan teks di dalam footer */
+  bottom: 0; /* Menempatkan footer di bagian bawah halaman */
+  width: 100%; /* Menggunakan lebar 100% agar footer menempati seluruh lebar layar */
+}
+
+.footer .copy {
   color: #fff;
 }

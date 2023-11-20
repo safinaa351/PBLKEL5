@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Smart Lock Door</title>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="/static/css/style.css" />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
@@ -17,10 +17,15 @@
     />
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <style>
-        
+      body {
+        background-image: url('/static/images/bg2.jpg'); /* Ganti dengan path / URL gambar yang ingin Anda gunakan */
+        background-size: cover;
+        background-repeat: no-repeat;
+      }
         .container {
             width: 60%;
-            margin-top: 50px;
+            margin-top: 150px;
+            margin-bottom: 90px;
             background-color: #ffffff;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -29,7 +34,7 @@
         h2 {
             text-align: center;
             margin-bottom: 20px;
-            color: #ffffff;
+            color: #867a7a;
         }
         table {
             width: 100%;
@@ -46,37 +51,34 @@
             background-color: #f2f2f2;
         }
         .features {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 50px 0;
-
-}
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 50px 0;
+  }
 
 .feature {
   text-align: center;
   margin: 20px;
 }
+.footer{
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
+  background-color: #000000;
+  color: #fff; 
+  text-align: center; 
+  bottom: 0; 
+  width: 100%; 
+  padding: 3%;
+}
+
     </style>
   </head>
   <header>
     <nav class="navbar navbar-dark bg-dark fixed-top">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">Smart Door Lock</a>
-        <form id="search-form" class="d-flex mt-3" role="search">
-          <input
-            id="searchQueryInput"
-            type="text"
-            name="searchQueryInput"
-            placeholder="Search"
-          />
-          <button id="searchQuerySubmit" type="submit" name="searchQuerySubmit">
-            <svg style="width: 20px; height: 20px" viewBox="0 0 24 24">
-              <path
-                fill="#666666"
-                d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z"
-              ></path>
-            </svg>
+        <a class="navbar-brand" href="homepage.html">Smart Door Lock</a>
           </button>
         </form>
         <button
@@ -110,7 +112,7 @@
   <body>
   <div class="container">
     <h1> Log Access</h1>
-    <h2>Logs Access - Smart Door Lock</h2>
+    <h2>history pemakaian</h2>
     <table>
         <tr>
             <th>ID Card</th>
@@ -138,36 +140,41 @@
         </tr>
     </table>
 </div>
-<section class="features">
-    <div class="feature">
-      <div class="image">
-        <h2>Capture</h2>
-        <a href="#">
-          <img
-            src="https://media.istockphoto.com/id/1072524982/id/foto/meja-dan-kursi-di-kamar-rendering-3d.jpg?s=612x612&w=0&k=20&c=MY6wSI-hLnvAfFV92Amdt1Y2_lPXy4AHSAkmWJH8rYw="
-            width="200"
-            height="150" />
-        </a>
-      </div>
-    </div>
-    <div class="feature">
-      <h2>Register</h2>
-      <a href="URL_GAMBAR_FITUR_2">
-        <img
-          src="https://www.security101.com/hs-fs/hub/375807/file-2018549612-jpg/blog-attachments/access-nfc-blog.jpg"
-          width="200"
-          height="150" />
-      </a>
-    </div>
-    <!--<div class="feature">
-      <h2>Fitur 3</h2>
-      <p>History Log</p>
-      <a href="URL_GAMBAR_FITUR_3">
-        <img src="https://ddtc-cdn1.sgp1.digitaloceanspaces.com/view/sudah-ada-izin-pembukaan-data-pajak-wp-dalam-daftar-pengawasan-bersama-220919054645.png" width="200" height="150"/>
-        
-      </a>
-    </div>
-  --></section>
+<div class="container">
+  <h1> capture</h1>
+  <h2>foto pengguna yang salah</h2>
+  <table>
+      <tr>
+          <th>ID Card</th>
+          <th>Tanggal</th>
+          <th>Waktu</th>
+          <th>foto</th>
+      </tr>
+      <tr>
+          <td>0fd24</td>
+          <td>2023-1-01</td>
+          <td>09:30:00</td>
+          <td><img src="foto.jpg" href="fototersangka"></td>
+      </tr>
+      <tr>
+          <td>243ef</td>
+          <td>2023-10-02</td>
+          <td>11:45:00</td>
+          <td><img src="foto.jpg" href="fototersangka"></td>
+      </tr>
+      <tr>
+          <td>65d34</td>
+          <td>2023-12-03</td>
+          <td>1:20:00</td>
+          <td><img src="foto.jpg" href="fototersangka"></td>
+      </tr>
+  </table>
+</div>
 </body>
-<footer><a>Hak Cipta © 2023 Kelompok 5 Politeknik Negeri Jakarta</a></footer>
+<footer class="footer">
+  <div class="copy">Hak Cipta © 2023 Kelompok 5 Politeknik Negeri Jakarta</footer>
+  </div>
+  </div>
+</footer>
+
 </html>
