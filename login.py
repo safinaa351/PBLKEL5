@@ -1,70 +1,75 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
-from flask_mysqldb import MySQL
+from flask_sqlalchemy import SQLAlchemy
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:@localhost/flask_login'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.secret_key = 'wearekelompok5'
 
-app.config["MYSQL_HOST"] = "localhost"
-app.config["MYSQL_USER"] = "root"
-app.config["MYSQL_PASSWORD"] = ""
-app.config["MYSQL_DB"] = "flask_login"
-app.config["MYSQL_CURSORCLASS"] = "DictCursor"
+db = SQLAlchemy(app)
 
-mysql = MySQL(app)
-
-app.secret_key = "your_secret_key"
-
-
-class User:
-    def __init__(self, username, password):
-        self.username = username
-        self.password = password
-
-    def authentication(self, username, password):
-        cur = mysql.connection.cursor()
-        cur.execute(
-            "SELECT * FROM user WHERE username = %s AND password = %s",
-            (username, password),
-        )
-        user_data = cur.fetchone()
-        cur.close()
-        if user_data:
-            return User(username=user_data["username"], password=user_data["password"])
-        return None
-
-
-@app.route("/")
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    nama = db.Column(db.String(50), nullable=False)
+    username = db.Column(db.String(50), unique=True, nullable=False)
+    password = db.Column(db.String(256), nullable=False)
+    
+@app.route('/')
 def home():
-    return render_template("homepage.html")
+    return render_template('homepage.html')
 
-@app.route("/admin")
+@app.route('/admin')
 def admin():
-    return render_template('adminpage.html')
+    if 'logged_in' in session:
+        return render_template('adminpage.html')
+    flash('Login terlebih dahulu', 'danger')
+    return redirect(url_for('login'))
 
-@app.route("/login", methods=["GET", "POST"])
-def login():
-    if request.method == "POST":
+
+@app.route('/registrasi', methods=['GET', 'POST'])
+def registrasi():
+    if request.method == 'POST':
         username = request.form["username"]
         password = request.form["password"]
-        user = User(username, password)
-        found_user = user.authentication(username, password)
-        if found_user:
-            session["username"] = found_user.username
-            return redirect(url_for("admin"))
+        nama = request.form["nama"]
+
+        user = User.query.filter_by(username=username).first()
+        if user is None:
+            new_user = User(nama=nama, username=username, password=generate_password_hash(password))
+            db.session.add(new_user)
+            db.session.commit()
+            flash("Registrasi Berhasil, Silahkan Log in", 'success')
+            return redirect(url_for('login'))
         else:
-            flash("Username or Password is incorrect", "error")
-            return redirect(url_for("login"))
-    return render_template("loginpage.html")
+            flash("Username sudah ada", "danger")
+    return render_template('registerpage.html')
 
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
 
-@app.route("/logout")
+        user = User.query.filter_by(username=username).first()
+
+        if user is None:
+            flash('Login Gagal, cek username Anda', 'danger')
+        elif not check_password_hash(user.password, password):
+            flash('Login Gagal, cek password Anda', 'danger')
+        else:
+            session['logged_in'] = True
+            session['username'] = user.username
+            return redirect(url_for('admin'))
+    return render_template('loginpage.html')
+
+@app.route('/logout')
 def logout():
-    session.pop("username", None)
-    return redirect(url_for("home"))
+    session.pop('logged_in', None)
+    session.pop('username', None)
+    return redirect(url_for('login'))
 
-
-@app.route("/update")
-def update():
-    pass
-
-if __name__ == "__main__":
+if __name__ == '__main__':
+    with app.app_context():
+        db.create_all()
     app.run(debug=True)
