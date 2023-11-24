@@ -1,75 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Register</title>
-  <!-- Include Bootstrap CSS (you need to have this file in your project) -->
-  <link rel="stylesheet" href="/static/css/bootstrap.min.css">
-  <!-- Add your custom styles here if needed -->
-  <style>
-    body {
-      background-color: #f8f9fa;
-    }
-    .container {
-      max-width: 400px;
-      margin: 0 auto;
-      margin-top: 100px;
-    }
-    .register-box {
-      background-color: #ffffff;
-      padding: 20px;
-      border-radius: 5px;
-      box-shadow: 0px 0px 10px 0px #000000;
-    }
-    .input-group {
-      margin-bottom: 15px;
-    }
-    label {
-      display: block;
-      margin-bottom: 5px;
-    }
-    input {
-      width: 100%;
-      padding: 8px;
-      box-sizing: border-box;
-    }
-    button {
-      background-color: #007bff;
-      color: #ffffff;
-      padding: 10px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #0056b3;
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <div class="register-box">
-      <h2>REGISTER</h2>
-      <form class="register-form" method="POST" action="/registrasi">
-        <div class="input-group">
-          <label for="username">Username</label>
-          <input type="text" id="username" name="username" class="form-control" required>
-        </div>
-        <div class="input-group">
-          <label for="password">Password</label>
-          <input type="password" id="password" name="password" class="form-control" required>
-        </div>
-        <div class="input-group">
-          <label for="name">Name</label>
-          <input type="text" id="nama" name="nama" class="form-control" required>
-        </div>
-        <button type="submit" class="btn btn-primary">Register</button>
-      </form>      
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="/static/css/login.css" />
+    <!-- Link untuk font Montserrat -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <div class="login-box">
+        <h2>SIGN UP</h2>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+              <div id="error-message" style="color: red;">{{ messages[0][1] }}</div>
+          {% endif %}
+        {% endwith %}
+        <form
+          class="login-form"
+          method="POST"
+          action="/registrasi"
+          >
+          <div class="input-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required/>
+          </div>
+          <div class="input-group">
+            <label for="nama">Nama Lengkap</label>
+            <input type="text" id="nama" name="nama" required/>
+          </div>
+          <div class="input-group">
+            <div class="input-group">
+              <label for="username">Username</label>
+              <input type="text" id="username" name="username" required/>
+            </div>
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required/>
+          </div>
+          <div class="input-group">
+            <label for="password">Konfirmasi Password</label>
+            <input type="password" id="confirm-password" name="confirm-password" required/>
+          </div>
+          <button type="submit">Submit</button>
+        </form>
+        <p>Already have an account? <a href="/login">Login</a></p> 
+      </div>
     </div>
-  </div>
-
-  <!-- Include Bootstrap JS and any other scripts here if needed -->
-  <script src="/static/js/bootstrap.min.js"></script>
-</body>
+    <script src="/static/js/login.js"></script>
+  </body>
 </html>

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session, flash
+from flask import Flask, render_template, request, redirect, url_for, session, flash, make_response
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -11,6 +11,7 @@ db = SQLAlchemy(app)
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(50), nullable=False)
     nama = db.Column(db.String(50), nullable=False)
     username = db.Column(db.String(50), unique=True, nullable=False)
     password = db.Column(db.String(256), nullable=False)
@@ -22,7 +23,9 @@ def home():
 @app.route('/admin')
 def admin():
     if 'logged_in' in session:
-        return render_template('adminpage.html')
+        response = make_response(render_template('adminpage.html'))
+        response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
+        return response
     flash('Login terlebih dahulu', 'danger')
     return redirect(url_for('login'))
 
@@ -30,17 +33,22 @@ def admin():
 @app.route('/registrasi', methods=['GET', 'POST'])
 def registrasi():
     if request.method == 'POST':
+        email = request.form['email']
+        nama = request.form["nama"]
         username = request.form["username"]
         password = request.form["password"]
-        nama = request.form["nama"]
-
+        confirm_password = request.form['confirm-password']
+        
         user = User.query.filter_by(username=username).first()
-        if user is None:
-            new_user = User(nama=nama, username=username, password=generate_password_hash(password))
+        if user is None and password == confirm_password:
+            new_user = User(email=email, nama=nama, username=username, password=generate_password_hash(password))
             db.session.add(new_user)
             db.session.commit()
             flash("Registrasi Berhasil, Silahkan Log in", 'success')
             return redirect(url_for('login'))
+        elif password != confirm_password:
+             flash("Password dan konfirmasi password tidak cocok", 'error')
+             return redirect(url_for('registrasi'))
         else:
             flash("Username sudah ada", "danger")
     return render_template('registerpage.html')
