@@ -10,6 +10,10 @@ body {
     align-items: center;
     height: 100vh;
   }
+
+  .flash {
+    font-size: 18px;
+}
   
   .container {
     width: 100%;

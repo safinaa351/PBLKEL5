@@ -1,41 +1,119 @@
 @import url("https://fonts.googleapis.com/css2?family=Sriracha&display=swap");
 
 body {
-  background: url('/static/images/bg2.jpg');
+  margin: 0;
+  box-sizing: border-box;
+}
+
+/* CSS for header */
+.logo {
+  display: flex;
   align-items: center;
 }
-header {
-  background-color: #464242;
-  color: #3b296e;
-  padding: 20px;
-  font-family: 'Share Tech Mono', monospace;
-  
+
+.logo img {
+  width: 50px; /* Ubah sesuai dengan ukuran yang diinginkan */
+  height: auto; /* Menjaga proporsi asli gambar */
+  margin-right: 10px; /* Memberikan jarak antara gambar dan teks */
+  margin-left: 10px;
+}
+
+.logo-text {
+  font-size: 20px; /* Ubah sesuai kebutuhan */
+  font-weight: bold; /* Atur ketebalan teks */
+  color: #333; /* Warna teks */
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f5f5f5;
 }
 
 
-.hero {
-  text-align: center;
-  color: #c7c7c7;
+
+.nav-items {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #f5f5f5;
+  margin-right: 20px;
 }
 
-.hero-content {
-  background: rgba(0, 0, 0, 0.6);
-  padding: 50px;
-  border-radius: 5px;
-  font-family: 'Share Tech Mono', monospace;
+.nav-items a {
+  text-decoration: none;
+  color: #000;
+  padding: 35px 20px;
 }
-footer {
-  background-color: #1e1e20;
+
+/* CSS for main element */
+.intro {
+  display: flex;
+  margin-bottom: 60px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 520px;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.5) 100%), url("/static/images/bg2.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.intro h1 {
+  font-family: sans-serif;
+  font-size: 60px;
   color: #fff;
-  text-align: center;
-  padding: 10px;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin: 0;
 }
 
- 
+.intro p {
+  font-size: 20px;
+  color: #d1d1d1;
+  text-transform: none;
+  margin: 20px 0;
+}
+
+.intro button {
+  background-color: #5edaf0;
+  color: #000;
+  padding: 10px 25px;
+  border: none;
+  border-radius: 5px;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.4)
+}
+
+
+
+/* CSS for features */
+.features {
+  display: flex;
+  justify-content: space-between; /* Mengatur agar fitur-fitur berjejer dengan jarak yang sama di antara mereka */
+  flex-wrap: wrap; /* Memastikan fitur-fitur dapat melintas ke baris baru jika tidak cukup ruang */
+  margin-bottom: 40px;
+}
+
+.feature {
+  width: calc(33.33% - 20px); /* Memberikan lebar sekitar 33.33% untuk setiap fitur */
+  margin-bottom: 20px;
+  text-align: center;
+  padding: 0 10px;
+  box-sizing: border-box; /* Memastikan padding tidak memengaruhi lebar total elemen */
+}
+
 .room-container {
   display: flex;
-  border: 1px ;
-  justify-content: center;
+  justify-content: center; /* Untuk menengahkan ruang container secara horizontal */
+  width: 100%; /* Menentukan lebar maksimum ruang container */
+  margin-top: 60px;
+  margin-bottom: 40px; 
 }
 
 .room-image-box {
@@ -47,8 +125,8 @@ footer {
   width: 600px;
   height: 600px;
   display: block;
-  max-height: 400px; /* Atur tinggi maksimum gambar */
-  border-radius: 8px 0 0 8px; /* Memutar sudut atas gambar */
+  max-height: 400px; 
+  border-radius: 8px 0 0 8px; 
 }
 
 .room-info-box {
@@ -63,6 +141,7 @@ footer {
 
 .room-info {
   margin-bottom: 10px;
+  justify-content: center;
 }
 
 .status-box {
@@ -85,50 +164,20 @@ max-width: 4000px;
   color: #fff;
 }
 
-.text-container{
- background-color: #6f6f7025;
- width: auto;
- height: auto;
- color: #fff;
- padding: 40px 0;
-}
-.features {
-  display: flex;
-  justify-content: space-between; /* Mengatur agar fitur-fitur berjejer dengan jarak yang sama di antara mereka */
-  flex-wrap: wrap; /* Memastikan fitur-fitur dapat melintas ke baris baru jika tidak cukup ruang */
-  margin-bottom: 40px;
-}
-
-.feature {
-  width: calc(33.33% - 20px); /* Memberikan lebar sekitar 33.33% untuk setiap fitur */
-  margin-bottom: 20px;
-  text-align: center;
-  padding: 0 10px;
-  box-sizing: border-box; /* Memastikan padding tidak memengaruhi lebar total elemen */
-  
-}
-
-/* CSS for how-it-works */
-.how-it-works {
-  text-align: center;
-  margin: 0 auto; /* Menengahkan bagian "How It Works" */
-  max-width: 600px; /* Mengatur lebar maksimum agar tidak terlalu lebar */
-  padding: 0 20px; /* Memberikan sedikit padding di sisi kiri dan kanan */
-  margin-bottom: 40px;
-}
-
 
 /* CSS for footer */
 .footer {
   display: flex;
   justify-content: center; /* Untuk menengahkan konten secara horizontal */
   align-items: center; /* Untuk menengahkan konten secara vertikal */
-  background-color: #000000;
+  background-color: #000;
+  padding: 40px 0; /* Mengubah padding atas/bawah saja agar tidak terlalu tinggi */
   color: #fff; /* Warna teks pada footer */
   text-align: center; /* Menengahkan teks di dalam footer */
   bottom: 0; /* Menempatkan footer di bagian bawah halaman */
   width: 100%; /* Menggunakan lebar 100% agar footer menempati seluruh lebar layar */
 }
+
 
 .footer .copy {
   color: #fff;
