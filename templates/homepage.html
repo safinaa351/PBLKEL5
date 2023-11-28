@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Smart Lock Door</title>
   <link rel="stylesheet" href="/static/css/style.css">
-  
+
 </head>
 
 <body>
@@ -55,6 +55,38 @@
         </div>
       </div>
     </div>
+    
+    <!-- Bagian untuk Melihat Jadwal -->
+    <div class="schedule">
+      <h2>Schedule</h2>
+      <table class="schedule-table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>2023-11-25</td>
+            <td>08:30 AM</td>
+            <td>Meeting</td>
+          </tr>
+          <!-- Tambahkan baris tabel sesuai dengan jadwal -->
+        </tbody>
+      </table>
+    </div>
+    
+    <!-- Bagian untuk Berinteraksi dengan Admin -->
+    <div class="interaction">
+      <h2>Contact Admin</h2>
+      <form id="adminInteractionForm" action="/send-message-to-admin" method="POST">
+        <label for="message">Message:</label>
+        <textarea id="message" name="message" rows="4" required></textarea>
+        <button type="submit">Send</button>
+      </form>
+    </div>
   </main>
   <footer class="footer">
     <div class="copy">Hak Cipta © 2023 Kelompok 5 Politeknik Negeri Jakarta</div>
@@ -62,4 +94,5 @@
   </footer>
   <script src="/static/js/home.js"></script>
 </body>
+
 </html>

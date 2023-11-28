@@ -10,13 +10,13 @@ var statusBox = document.querySelector(".status-box");
 var statusElement = document.getElementById("status");
 var index = 0;
 
-var status = "Tertutup";
+var status = "Available";
 
 function updateRoom() {
     index = (index + 1) % roomData.length;
     roomImage.src = roomData[index].image;
     roomInfo.innerHTML = `<h2>Status Ruangan Embeded</h2>`;
-    statusBox.className = status === "Terbuka" ? "status-box status-open" : "status-box status-closed";
+    statusBox.className = status === "Not Available" ? "status-box status-open" : "status-box status-closed";
     statusElement.textContent = status;
 }
 
