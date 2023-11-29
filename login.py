@@ -38,7 +38,11 @@ def home():
 
 @app.route("/admin")
 def admin():
-    return render_template('adminpage.html')
+    if "username" in session:
+        return render_template('adminpage.html')
+    else:
+        flash("You need to log in to access the admin page", "error")
+        return redirect(url_for("login"))
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -62,11 +66,5 @@ def logout():
     return redirect(url_for("home"))
 
 
-@app.route("/update")
-def update():
-    pass
-
 if __name__ == "__main__":
     app.run(debug=True)
-
-#test
