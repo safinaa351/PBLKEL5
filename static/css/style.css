@@ -41,10 +41,19 @@ body {
   margin-right: 20px;
 }
 
+
 .nav-items a {
   text-decoration: none;
-  color: #000;
+  color: #000; /* Warna teks tautan */
   padding: 35px 20px;
+  transition: background-color 0.3s ease; /* Efek transisi perubahan warna latar belakang */
+}
+
+.nav-items a:hover,
+.nav-items a:active,
+.nav-items a:focus {
+  background-color: #000; /* Warna latar belakang saat dihover/dipencet */
+  color: #fff; /* Warna teks saat dihover/dipencet */
 }
 
 /* CSS for main element */
