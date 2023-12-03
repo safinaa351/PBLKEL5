@@ -14,7 +14,7 @@ class User(db.Model):
     email = db.Column(db.String(50), nullable=False)
     nama = db.Column(db.String(50), nullable=False)
     username = db.Column(db.String(50), unique=True, nullable=False)
-    password = db.Column(db.String(256), nullable=False)
+    password = db.Column(db.String(255), nullable=False)
     
 @app.route('/')
 def home():
