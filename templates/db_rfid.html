@@ -1,0 +1,28 @@
+<!-- Template db_rfid.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Data RFID</title>
+</head>
+<body>
+    <h1>Data RFID</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>No RFID</th>
+                <th>Waktu</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for data in rfid_data %}
+            <tr>
+                <td>{{ data.id }}</td>
+                <td>{{ data.no_rfid }}</td>
+                <td>{{ data.waktu }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

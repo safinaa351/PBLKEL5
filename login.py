@@ -5,9 +5,22 @@ from werkzeug.security import generate_password_hash, check_password_hash
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:@localhost/flask_login'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_BINDS'] = {
+    'db_rfid': 'mysql://root:@localhost/db_rfid'
+}
 app.secret_key = 'wearekelompok5'
 
 db = SQLAlchemy(app)
+
+class DatabaseRfid(db.Model):
+    __bind_key__ = 'db_rfid'
+    id = db.Column(db.Integer, primary_key=True)
+    no_rfid = db.Column(db.String(50), nullable=False)
+    waktu = db.Column(db.DateTime, nullable=False)
+    
+    def __init__(self, no_rfid, waktu):
+        self.no_rfid = no_rfid
+        self.waktu = waktu
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -16,6 +29,7 @@ class User(db.Model):
     username = db.Column(db.String(50), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
     
+    
 @app.route('/')
 def home():
     return render_template('homepage.html')
@@ -23,7 +37,8 @@ def home():
 @app.route('/admin')
 def admin():
     if 'logged_in' in session:
-        response = make_response(render_template('adminpage.html'))
+        rfid_data = DatabaseRfid.query.all()
+        response = make_response(render_template('db_rfid.html',rfid_data=rfid_data))
         response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
         return response
     flash('Login terlebih dahulu', 'danger')
@@ -79,5 +94,6 @@ def logout():
 
 if __name__ == '__main__':
     with app.app_context():
-        db.create_all()
+        engine = db.get_engine(app, bind='db_rfid')
+        DatabaseRfid.metadata.create_all(engine)  # Create tables in 'db_rfid'
     app.run(debug=True)
