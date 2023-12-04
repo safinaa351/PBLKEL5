@@ -1,0 +1,83 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Montserrat', Arial, sans-serif; /* Menggunakan Montserrat atau font serupa */
+    background-image: url('/static/images/bg-01.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+  }
+  
+  .container {
+    height: 1100px;
+    width: 1000px;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .login-box {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgb(0, 0, 0);
+    text-align: center;
+    color: #12233f;
+    width: 700px;
+    height: 620px;
+    transition: transform 0.3s ease-in-out; /* Animasi saat hover */
+  }
+  
+  .login-box:hover {
+    transform: translateY(-5px); /* Bergerak ke atas saat hover */
+  }
+  
+  .login-box h2 {
+    margin-bottom: 30px;
+    font-size: 25px;
+  }
+  
+  .login-form .input-group {
+    margin-bottom: 20px;
+    text-align: left;
+  }
+  
+  .login-form label {
+    display: block;
+    margin-bottom: 5px;
+    color: #12233f;
+    font-size: 14px;
+  }
+  
+  .login-form input {
+    width: 93%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #12233f;
+    outline: none;
+    transition: border-color 0.3s ease; /* Animasi saat focus */
+    font-size: 14px;
+  }
+  
+  .login-form input:focus {
+    border-color: #0e1d31; /* Perubahan warna border saat focus */
+  }
+  
+  .login-form button {
+    width: 25%;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: #12233f;
+    color: #ffffff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    
+  }
+  
+  .login-form button:hover {
+    background-color: #0e1d31;
+  }
+  

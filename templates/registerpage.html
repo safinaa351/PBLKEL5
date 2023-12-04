@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sign Up</title>
-    <link rel="stylesheet" href="/static/css/login.css" />
+    <link rel="stylesheet" href="/static/css/regis.css" />
     <!-- Link untuk font Montserrat -->
     <link
       href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap"
@@ -17,7 +17,7 @@
         <h2>SIGN UP</h2>
         {% with messages = get_flashed_messages(with_categories=true) %}
           {% if messages %}
-              <div id="error-message" style="color: red;">{{ messages[0][1] }}</div>
+              <div id="error-message" style="color: #0e1d31;">{{ messages[0][1] }}</div>
           {% endif %}
         {% endwith %}
         <form
@@ -34,18 +34,18 @@
             <input type="text" id="nama" name="nama" required/>
           </div>
           <div class="input-group">
-            <div class="input-group">
-              <label for="username">Username</label>
-              <input type="text" id="username" name="username" required/>
-            </div>
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" required/>
+          </div>
+          <div class="input-group">
             <label for="password">Password</label>
             <input type="password" id="password" name="password" required/>
           </div>
           <div class="input-group">
-            <label for="password">Konfirmasi Password</label>
+            <label for="confirm-password">Konfirmasi Password</label>
             <input type="password" id="confirm-password" name="confirm-password" required/>
           </div>
-          <button type="submit">Submit</button>
+          <button type="submit">Sign Up</button>
         </form>
         <p>Already have an account? <a href="/login">Login</a></p> 
       </div>

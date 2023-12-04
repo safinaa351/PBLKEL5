@@ -15,14 +15,9 @@
     <div class="container">
       <div class="login-box">
         <h2>SIGN IN</h2>
-        {% with messages = get_flashed_messages(with_categories=true) %}
-          {% if messages %}
-              <div id="error-message" style="color: red;">{{ messages[0][1] }}</div>
-          {% endif %}
-        {% endwith %}
         <form
-          class="login-form"
-          method="POST"
+        class="login-form"
+        method="POST"
           action="/login"
         >
           <div class="input-group">
@@ -34,6 +29,11 @@
             <input type="password" id="password" name="password" required/>
           </div>
           <button type="submit">Login</button>
+          {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div id="error-message" style="color: #0e1d31;">{{ messages[0][1] }}</div>
+            {% endif %}
+          {% endwith %}
         </form>
         <p>Don't have an account? <a href="/registrasi">Register here</a></p> 
       </div>
