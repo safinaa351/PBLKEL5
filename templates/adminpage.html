@@ -23,7 +23,7 @@
         background-repeat: no-repeat;
       }
         .container {
-            width: 60%;
+            width: 50%;
             margin-top: 150px;
             margin-bottom: 90px;
             background-color: #ffffff;
@@ -116,33 +116,24 @@
   </header>
   <body>
   <div class="container">
-    <h1> Log Access</h1>
-    <h2>history pemakaian</h2>
+    <h1>Log Access</h1>
     <table>
-        <tr>
-            <th>ID Card</th>
-            <th>Tanggal</th>
-            <th>Waktu</th>
-            <th>Keterangan</th>
-        </tr>
-        <tr>
-            <td>1fd73</td>
-            <td>2023-11-01</td>
-            <td>08:30:00</td>
-            <td>Masuk</td>
-        </tr>
-        <tr>
-            <td>2daef</td>
-            <td>2023-11-02</td>
-            <td>12:45:00</td>
-            <td>Keluar</td>
-        </tr>
-        <tr>
-            <td>3ad34</td>
-            <td>2023-11-03</td>
-            <td>17:20:00</td>
-            <td>Masuk</td>
-        </tr>
+        <thead>
+            <tr>
+                <th>NO</th>
+                <th>UID</th>
+                <th>WAKTU</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for data in rfid_data %}
+            <tr>
+                <td>{{ data.id }}</td>
+                <td>{{ data.no_rfid }}</td>
+                <td>{{ data.waktu }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
     </table>
 </div>
 <div class="container">

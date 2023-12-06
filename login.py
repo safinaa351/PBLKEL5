@@ -13,6 +13,7 @@ app.secret_key = 'wearekelompok5'
 db = SQLAlchemy(app)
 
 class DatabaseRfid(db.Model):
+    __tablename__ = 'log_rfid'
     __bind_key__ = 'db_rfid'
     id = db.Column(db.Integer, primary_key=True)
     no_rfid = db.Column(db.String(50), nullable=False)
@@ -38,7 +39,7 @@ def home():
 def admin():
     if 'logged_in' in session:
         rfid_data = DatabaseRfid.query.all()
-        response = make_response(render_template('db_rfid.html',rfid_data=rfid_data))
+        response = make_response(render_template('adminpage.html',rfid_data=rfid_data))
         response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
         return response
     flash('Login terlebih dahulu', 'danger')
@@ -93,7 +94,4 @@ def logout():
     return redirect(url_for('login'))
 
 if __name__ == '__main__':
-    with app.app_context():
-        engine = db.get_engine(app, bind='db_rfid')
-        DatabaseRfid.metadata.create_all(engine)  # Create tables in 'db_rfid'
     app.run(debug=True)
