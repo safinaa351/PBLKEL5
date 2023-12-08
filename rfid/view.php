@@ -7,7 +7,7 @@
   <style>
     table {
       border-collapse: collapse;
-      width: 50%;
+      width: 60%;
       margin: 20px auto;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
@@ -16,10 +16,9 @@
       text-align: left;
       padding: 8px;
     }
-    th:nth-child(1), td:nth-child(1) { 
-      text-align: center;
-    }
-    th:nth-child(2), td:nth-child(2){ 
+    th:nth-child(1), td:nth-child(1), /* UID */
+    th:nth-child(2), td:nth-child(2), /* Waktu */
+    th:nth-child(3), td:nth-child(3) { /* Access */
       text-align: center;
     }
     th {
@@ -37,7 +36,8 @@
     <thead>
       <tr>
         <th>UID</th>
-        <th>Waktu</th> <!-- Kolom waktu -->
+        <th>Waktu</th>
+        <th>Access</th> <!-- Tambah kolom Access -->
       </tr>
     </thead>
     <tbody>
@@ -48,7 +48,8 @@
           while ($row = mysqli_fetch_assoc($result_select)) {
               echo "<tr>";
               echo "<td>" . $row['no_rfid'] . "</td>";
-              echo "<td>" . $row['waktu_formatted'] . "</td>"; // Tampilkan waktu
+              echo "<td>" . $row['waktu_formatted'] . "</td>";
+              echo "<td>" . $row['access'] . "</td>";
               echo "</tr>";
           }
           mysqli_free_result($result_select);
