@@ -21,12 +21,16 @@
           action="/login"
         >
           <div class="input-group">
-            <label for="username">Username</label>
-            <input type="text" id="username" name="username" required/>
+            <label for="identifier">Username or Email</label>
+            <input type="text" id="identifier" name="identifier" required/>
           </div>
           <div class="input-group">
             <label for="password">Password</label>
             <input type="password" id="password" name="password" required/>
+          </div>
+          <div class="show-password-checkbox">
+            <input type="checkbox" id="showpw" onclick="showPassword()">
+            <label for="showpw">Show Password</label>
           </div>
           <button type="submit">Login</button>
           {% with messages = get_flashed_messages(with_categories=true) %}
@@ -35,9 +39,22 @@
             {% endif %}
           {% endwith %}
         </form>
+        <a href="/reset_password_request">Forgot Password?</a>
         <p>Don't have an account? <a href="/registrasi">Register here</a></p> 
       </div>
     </div>
-    <script src="/static/js/login.js"></script>
+    <!-- <script src="/static/js/login.js"></script> -->
+    <script>
+      function showPassword() {
+        var passwordInput = document.getElementById("password");
+        var checkbox = document.querySelector('input[type="checkbox"]');
+  
+        if (checkbox.checked) {
+          passwordInput.type = "text";
+        } else {
+          passwordInput.type = "password";
+        }
+      }
+    </script>
   </body>
 </html>

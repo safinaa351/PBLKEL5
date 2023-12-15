@@ -37,10 +37,11 @@ body {
     margin-bottom: 30px;
     font-size: 25px;
   }
-  
+
   .login-form .input-group {
     margin-bottom: 20px;
     text-align: left;
+    /* margin-bottom: 1rem; */
   }
   
   .login-form label {
@@ -75,8 +76,18 @@ body {
     transition: background-color 0.3s ease;
     
   }
-  
+    
   .login-form button:hover {
     background-color: #0e1d31;
   }
+
+  .login-form .show-password-checkbox {
+    display: flex;
+    align-items: center;
+    margin-top: 10px; /* Sesuaikan jarak antara input dan checkbox */
+  }
   
+  .login-form .show-password-checkbox input {
+    margin-right: -120px; /* Sesuaikan jarak antara input checkbox dan label */
+    margin-left: -130px;
+  }
