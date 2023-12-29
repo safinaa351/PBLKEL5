@@ -25,7 +25,7 @@ body {
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
   text-align: center;
   color: #12233f;
-  width: 800px;
+  width: 300px;
   transition: transform 0.3s ease-in-out; /* Animasi saat hover */
 }
 

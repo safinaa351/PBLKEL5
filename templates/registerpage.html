@@ -1,55 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sign Up</title>
-    <link rel="stylesheet" href="/static/css/regis.css" />
-    <!-- Link untuk font Montserrat -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
-    <div class="container">
-      <div class="login-box">
-        <h2>SIGN UP</h2>
+  	<title>Sign Up</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	
+	<link rel="stylesheet" href="static/css/style-temp.css">
+
+  <style>
+    .custom-flash {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        max-width: 400px; /* Adjust the maximum width as needed */
+        width: 100%;
+        text-align: center;
+        z-index: 1000;
+    }
+</style>
+	</head>
+  <body class="img js-fullheight" style="background-image: url(static/images/background.jpg);">
+    <section class="ftco-section">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-md-6 text-center mb-5">
+            <h2 class="heading-section">Sign Up</h2>
+          </div>
+        </div>
         {% with messages = get_flashed_messages(with_categories=true) %}
-          {% if messages %}
-              <div id="error-message" style="color: #0e1d31;">{{ messages[0][1] }}</div>
-          {% endif %}
-        {% endwith %}
-        <form
-          class="login-form"
-          method="POST"
-          action="/registrasi"
-          >
-          <div class="input-group">
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" required/>
+            {% if messages %}
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                  {% for category, message in messages %}
+                  <div class="alert alert-{{ category }} alert-dismissible fade show custom-flash" role="alert">
+                      {{ message }}
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                      </button>
+                  </div>
+                  {% endfor %} 
+                </div>
+            </div>
+            {% endif %}
+            {% endwith %}
+        <div class="row justify-content-center">
+          <div class="col-md-6 col-lg-4">
+            <div class="login-wrap p-0">
+              <h3 class="mb-4 text-center">Don't have an account?</h3>
+              <form action="/registrasi" class="signup-form" method="POST">
+                <div class="form-group">
+                  <input type="email" class="form-control" placeholder="Email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                  <input type="text" class="form-control" placeholder="Full Name" id="fullname" name="fullname" required>
+                </div>
+                <div class="form-group">
+                  <input type="text" class="form-control" placeholder="Username" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                  <input type="password" class="form-control" placeholder="Password" id="password" name="password" required>
+                  <span toggle="#password" class="fa fa-fw fa-eye field-icon toggle-password" onclick="togglePassword(this)"></span>
+              </div>
+              <div class="form-group">
+                  <input type="password" class="form-control" placeholder="Confirm Password" id="confirm_password" name="confirm_password" required>
+                  <span toggle="#confirm_password" class="fa fa-fw fa-eye field-icon toggle-password" onclick="togglePassword(this)"></span>
+              </div>
+                <div class="form-group">
+                  <button type="submit" class="form-control btn btn-primary submit px-3">Sign Up</button>
+                </div>
+              </form>
+              <p class="w-100 text-center">&mdash; Already have an account? <a href="/">Sign In here</a> &mdash;</p>
+            </div>
           </div>
-          <div class="input-group">
-            <label for="nama">Nama Lengkap</label>
-            <input type="text" id="nama" name="nama" required/>
-          </div>
-          <div class="input-group">
-            <label for="username">Username</label>
-            <input type="text" id="username" name="username" required/>
-          </div>
-          <div class="input-group">
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password" required/>
-          </div>
-          <div class="input-group">
-            <label for="confirm-password">Konfirmasi Password</label>
-            <input type="password" id="confirm-password" name="confirm-password" required/>
-          </div>
-          <button type="submit">Sign Up</button>
-        </form>
-        <p>Already have an account? <a href="/login">Login</a></p> 
+        </div>
       </div>
-    </div>
-    <script src="/static/js/login.js"></script>
-  </body>
+    </section>
+    <script>
+      function togglePassword(element) {
+    var passwordInput = document.querySelector(element.getAttribute("toggle"));
+    var toggleIcon = element;
+
+    if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+        toggleIcon.classList.remove("fa-eye");
+        toggleIcon.classList.add("fa-eye-slash");
+    } else {
+        passwordInput.type = "password";
+        toggleIcon.classList.remove("fa-eye-slash");
+        toggleIcon.classList.add("fa-eye");
+    }
+}
+  </script> 
+    <script src="static/js/popper.js"></script>
+    <script src="static/js/bootstrap.min.js"></script>
+    <script src="static/js/main.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+   </body> 
 </html>

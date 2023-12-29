@@ -1,18 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart Lock Door</title>
-    <link rel="stylesheet" href="/static/css/admin.css">
+    <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
     <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <style>
         body {
-            background-image: url('/static/images/bg2.jpg');
+            background-image: url('/static/images/background.jpg');
             background-size: cover;
             background-repeat: no-repeat;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: rgb(255, 255, 255);
+            padding: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #333;
+        }
+
+        .navbar-logo img {
+            width: 40px;
+            height: auto;
+            margin-right: 10px;
+        }
+
+        .navbar-text {
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .nav-items {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-items a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
         }
 
         .container {
@@ -25,7 +64,8 @@
             padding: 20px;
         }
 
-        h1, h2 {
+        h1,
+        h2 {
             text-align: center;
             margin-bottom: 20px;
             color: #867a7a;
@@ -37,7 +77,8 @@
             margin-top: 20px;
         }
 
-        th, td {
+        th,
+        td {
             border: 1px solid #dddddd;
             text-align: left;
             padding: 12px;
@@ -64,142 +105,116 @@
             text-align: center;
             margin: 20px;
         }
-
-        .footer {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #000000;
-            color: #fff;
-            text-align: center;
-            bottom: 0;
-            width: 100%;
-            padding: 3%;
-        }
     </style>
 </head>
+
 <body>
-<header>
-    <nav class="navbar navbar-dark bg-dark fixed-top">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="homepage.html">Smart Door Lock</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
-                    data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar"
-                    aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1"
-                 id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
-                <div class="offcanvas-body">
-                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-                        <li class="nav-item">
-                            <a>Home</a>
-                            <div class="d-flex align-items-center">
-                                <div class="dropdown">
-                                    <button class="btn btn-secondary custom-rounded-circle"
-                                            type="button">
-                                        <a class="dropdown-item" href="/logout">Logout</a>
-                                    </button>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+    <div class="navbar">
+        <a class="navbar-logo" href="/admin">
+            <img src="/static/images/key.png" alt="Logo">
+            <span class="navbar-text">Smart Door Lock</span>
+        </a>
+        <nav class="nav-items">
+            <a href="/regis_uid">Card Registration</a>
+            <a href="/logout">Logout</a>
+        </nav>
+    </div>
+
+    <div class="main-content">
+        <!-- Konten Contact Us di sini -->
+        <div class="container">
+            <h1>Log Access</h1>
+            <table id="access_log_table">
+                <thead>
+                    <tr>
+                        <!-- <th>NO</th> -->
+                        <th>UID</th>
+                        <th>WAKTU</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
         </div>
-    </nav>
-</header>
+    </div>
 
-<div class="container">
-    <h1>Log Access</h1>
-    <table id="access_log_table">
-        <thead>
-        <tr>
-            <!-- <th>NO</th> -->
-            <th>UID</th>
-            <th>WAKTU</th>
-        </tr>
-        </thead>
-        <tbody>
-      
-        </tbody>
-    </table>
-</div>
+    <div class="container">
+        <h1>capture</h1>
+        <h2>foto pengguna yang salah</h2>
+        <table>
+            <tr>
+                <th>ID Card</th>
+                <th>Tanggal</th>
+                <th>Waktu</th>
+                <th>foto</th>
+            </tr>
+            <tr>
+                <td>0fd24</td>
+                <td>2023-1-01</td>
+                <td>09:30:00</td>
+                <td><img src="/static/images/foto3.jpeg" class="gambar-tersangka" href="fototersangka"></td>
+            </tr>
+            <tr>
+                <td>243ef</td>
+                <td>2023-10-02</td>
+                <td>11:45:00</td>
+                <td><img src="/static/images/foto2.jpeg" class="gambar-tersangka" href="fototersangka"></td>
+            </tr>
+            <tr>
+                <td>65d34</td>
+                <td>2023-12-03</td>
+                <td>1:20:00</td>
+                <td><img src="/static/images/foto1.jpeg" class="gambar-tersangka" href="fototersangka"></td>
+            </tr>
+        </table>
+    </div>
 
-<div class="container">
-    <h1>capture</h1>
-    <h2>foto pengguna yang salah</h2>
-    <table>
-        <tr>
-            <th>ID Card</th>
-            <th>Tanggal</th>
-            <th>Waktu</th>
-            <th>foto</th>
-        </tr>
-        <tr>
-            <td>0fd24</td>
-            <td>2023-1-01</td>
-            <td>09:30:00</td>
-            <td><img src="/static/images/foto3.jpeg" class="gambar-tersangka" href="fototersangka"></td>
-        </tr>
-        <tr>
-            <td>243ef</td>
-            <td>2023-10-02</td>
-            <td>11:45:00</td>
-            <td><img src="/static/images/foto2.jpeg" class="gambar-tersangka" href="fototersangka"></td>
-        </tr>
-        <tr>
-            <td>65d34</td>
-            <td>2023-12-03</td>
-            <td>1:20:00</td>
-            <td><img src="/static/images/foto1.jpeg" class="gambar-tersangka" href="fototersangka"></td>
-        </tr>
-    </table>
-</div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        // Your AJAX script will go here
+        function updateLogAccessTable() {
+            // Send AJAX request to the server
+            $.ajax({
+                url: "/admin/access_log", // Replace with your actual API endpoint
+                method: "GET",
+                success: function (data) {
+                    // Clear the existing table content
+                    $("#access_log_table tbody").empty();
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script>
-// Your AJAX script will go here
-function updateLogAccessTable() {
-  // Send AJAX request to the server
-  $.ajax({
-    url: "/admin/access_log", // Replace with your actual API endpoint
-    method: "GET",
-    success: function(data) {
-      // Clear the existing table content
-      $("#access_log_table tbody").empty();
+                    // Get current time
+                    var currentTime = new Date();
 
-      // Get current time
-      var currentTime = new Date();
+                    // Loop through the data and add rows within the last 24 hours
+                    for (var i = 0; i < data.length; i++) {
+                        var logTime = new Date(data[i].waktu); // Assuming data includes a timestamp field
+                        var timeDifference = currentTime - logTime;
+                        var timeDifferenceInHours = timeDifference / (1000 * 60 * 60); // Convert milliseconds to hours
 
-      // Loop through the data and add rows within the last 24 hours
-      for (var i = 0; i < data.length; i++) {
-        var logTime = new Date(data[i].timestamp); // Assuming data includes a timestamp field
-        var timeDifference = currentTime - logTime;
-        var timeDifferenceInHours = timeDifference / (1000 * 60 * 60); // Convert milliseconds to hours
-
-        if (timeDifferenceInHours <= 24) {
-          var row = "<tr>";
-          //row += "<td>" + data[i].id + "</td>";
-          row += "<td>" + data[i].no_rfid + "</td>";
-          row += "<td>" + data[i].waktu + "</td>";
-          row += "</tr>";
-          $("#access_log_table tbody").append(row);
+                        if (timeDifferenceInHours <= 24) {
+                            var row = "<tr>";
+                            //row += "<td>" + data[i].id + "</td>";
+                            row += "<td>" + data[i].no_rfid + "</td>";
+                            row += "<td>" + data[i].waktu + "</td>";
+                            row += "</tr>";
+                            $("#access_log_table tbody").append(row);
+                        }
+                    }
+                }
+            });
         }
-      }
-    }
-  });
-}
 
-$(document).ready(function() {
-  updateLogAccessTable();
-  setInterval(updateLogAccessTable, 1000); // Update every 5 seconds
-});
-</script>
+        $(document).ready(function () {
+            updateLogAccessTable();
+            setInterval(updateLogAccessTable, 1000); // Update every 5 seconds
+        });
+    </script>
+
+    <footer class="footer">
+        <!-- ... Bagian Footer tetap sama ... -->
+        <div class="copy">Hak Cipta © 2023 Kelompok 5 Politeknik Negeri Jakarta</div>
+    </footer>
 
 </body>
 
-<footer class="footer">
-    <div class="copy">Hak Cipta © 2023 Kelompok 5 Politeknik Negeri Jakarta</footer>
-</footer>
 </html>
