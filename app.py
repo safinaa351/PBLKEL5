@@ -3,25 +3,26 @@ from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime, timedelta
 from flask_migrate import Migrate
+from dotenv import load_dotenv
 from itsdangerous import URLSafeTimedSerializer
 from flask_mail import Message, Mail
+from functools import wraps
 import pytz
-import re
+import os
+
+load_dotenv()
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:@localhost/flask_login'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-# app.config['SQLALCHEMY_BINDS'] = {
-#     'db_rfid': 'mysql://root:@localhost/db_rfid'
-# }
-app.config['SECRET_KEY'] = 'wearekelompok5'
-app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-app.config['MAIL_PORT'] = 587
-app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USE_SSL'] = False
-app.config['MAIL_USERNAME'] = 'locklogic.corp@gmail.com'
-app.config['MAIL_PASSWORD'] = 'hygq lkzf whgo ylyl'
-app.config['MAIL_DEFAULT_SENDER'] = 'locklogic.corp@gmail.com'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URI')
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
+app.config['MAIL_SERVER'] = os.getenv('MAIL_SERVER')
+app.config['MAIL_PORT'] = int(os.getenv('MAIL_PORT'))
+app.config['MAIL_USE_TLS'] = os.getenv('MAIL_USE_TLS') == 'True'
+app.config['MAIL_USE_SSL'] = os.getenv('MAIL_USE_SSL') == 'True'
+app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
+app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
+app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_DEFAULT_SENDER')
+
 
 mail = Mail(app)
 db = SQLAlchemy(app)
@@ -30,7 +31,7 @@ migrate = Migrate(app, db)
 class DatabaseRfid(db.Model):
     __tablename__ = 'log_rfid'
     id = db.Column(db.Integer, primary_key=True)
-    no_rfid = db.Column(db.String(50), nullable=False)
+    uid = db.Column(db.String(50), nullable=False)
     waktu = db.Column(db.DateTime,nullable=False)
     # timestamp = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
 
@@ -65,51 +66,51 @@ def send_reset_email(email, token):
     msg.body = f'Click the following link to reset your password: {reset_link}'
     mail.send(msg)
 
-database = {'last_uid': None}
+def check_session(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'logged_in' in session:
+            if 'login_time' in session and (datetime.now(pytz.utc) - session['login_time']).seconds < 900:
+                response = make_response(f(*args, **kwargs))
+                response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
+                return response
+            else:
+                flash('Your session has ended, please log in again.', 'danger')
+                session.pop('logged_in', None)
+                session.pop('username', None)
+                session.pop('login_time', None)
+        flash('Please login first', 'danger')
+        return redirect(url_for('login'))
+    return decorated_function
 
-@app.route('/home/room-info/')
+database = {'last_uid': 'Scan your card...'}
+
+@app.route('/dashboard/room-info/')
+@check_session
 def room_info():
     return render_template('room_info.html')
 
 # Route untuk schedule
-@app.route('/home/room-schedule/')
+@app.route('/dashboard/room-schedule/')
+@check_session
 def schedule():
     return render_template('schedule.html')
 
 # Route untuk contact admin
-@app.route('/home/contact-admin/')
+@app.route('/dashboard/contact-admin/')
+@check_session
 def contact_admin():
     return render_template('contact_admin.html')
 
 @app.route('/dashboard')
+@check_session
 def home():
-    if 'logged_in' in session:
-        if 'login_time' in session and (datetime.now(pytz.utc) - session['login_time']).seconds < 900:
-            response = make_response(render_template('homepage.html'))
-            response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
-            return response
-        else:
-            flash('Session anda telah berakhir, silahkan login kembali', 'danger')
-            session.pop('logged_in', None)
-            session.pop('username', None)
-            session.pop('login_time', None)
-    flash('Login terlebih dahulu', 'danger')
-    return redirect(url_for('login'))
+    return render_template('homepage.html')
 
 @app.route('/admin')
+@check_session
 def admin():
-    if 'logged_in' in session:
-        if 'login_time' in session and (datetime.now(pytz.utc) - session['login_time']).seconds < 900:
-            response = make_response(render_template('adminpage.html'))
-            response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
-            return response
-        else:
-            flash('Session anda telah berakhir, silahkan login kembali', 'danger')
-            session.pop('logged_in', None)
-            session.pop('username', None)
-            session.pop('login_time', None)
-    flash('Login terlebih dahulu', 'danger')
-    return redirect(url_for('login'))
+    return render_template('adminpage.html')
 
 @app.route('/admin/access_log')
 def access_log():
@@ -120,10 +121,15 @@ def access_log():
 
     # Convert the data to a list of dictionaries
     data = [
-        {"id": log.id, "no_rfid": log.no_rfid, "waktu": log.waktu.strftime("%Y-%m-%d %H:%M:%S"), "timestamp": log.waktu}
+        {
+            "id": log.id,
+            "uid": log.uid,
+            "waktu": log.waktu.strftime("%Y-%m-%d %H:%M:%S"),
+            "timestamp": log.waktu,
+            "status": "Available" if log.id % 2 == 0 else "Not Available"
+        }
         for log in log_access_data
     ]
-
     # Return the data as JSON
     return jsonify(data)
 
@@ -138,11 +144,11 @@ def registrasi():
         
         if (
             len(password) < 8
-            or not re.search("[a-z]", password)
-            or not re.search("[A-Z]", password)
-            or not re.search("[!@#$%^&*(),.?\":{}|<>]", password)
+            or not any(c.islower() for c in password)
+            or not any(c.isupper() for c in password)
+            or not any(c.isdigit() for c in password)
         ):
-            flash("Password harus minimal 8 karakter, kombinasi uppercase dan lowercase, serta menggunakan simbol-simbol yang aman.", 'danger')
+            flash('Your password must be at least 8 characters long and contain at least one lowercase letter, one uppercase letter, and one digit.')
             return redirect(url_for('registrasi'))
 
         user = User.query.filter((User.email==email) | (User.username==username)).first()
@@ -150,13 +156,13 @@ def registrasi():
             new_user = User(email=email, nama=nama, username=username, password=generate_password_hash(password), role='user')
             db.session.add(new_user)
             db.session.commit()
-            flash("Registrasi Berhasil, Silahkan Log in", 'success')
+            flash("Registration succesful, please log in.", 'success')
             return redirect(url_for('login'))
         elif password != confirm_password:
-             flash("Password dan konfirmasi password tidak cocok", 'danger')
+             flash("Passwords do not match", 'danger')
              return redirect(url_for('registrasi'))
         else:
-            flash("Username atau Email sudah ada", "danger")
+            flash("The username or email already exist", "danger")
     return render_template('registerpage.html')
 
 @app.route('/', methods=['GET', 'POST'])
@@ -199,10 +205,10 @@ def reset_password_request():
         if user:
             token = generate_reset_token(user.email)
             send_reset_email(user.email, token)
-            flash('Email reset password telah dikirim. Silahkan cek email Anda.', 'success')
+            flash('The password reset email has been sent. Please check your email', 'success')
             return redirect(url_for('login'))
 
-        flash('Username atau Email tidak ditemukan.', 'danger')
+        flash("Can't find userneme or password", 'danger')
 
     return render_template('reset_password_request.html')
 
@@ -258,19 +264,20 @@ def nfc_scan():
         return jsonify(response)
 
 @app.route('/regis_uid', methods=['GET', 'POST'])
+@check_session
 def regis_uid():
     if request.method == 'POST':
         uid= database['last_uid']
         nama = request.form['nama']
         uid = Uid.query.filter_by(uid=uid)
         if uid:
-            flash('Uid sudah ada!', 'warning')
+            flash('The UID already exist', 'warning')
             return redirect(url_for('regis_uid'))
         else:
             new_uid = Uid(uid=uid, nama=nama)
             db.session.add(new_uid)
             db.session.commit()
-            flash('Your Card Succesfully Registered!')
+            flash('Your card succesfully registered!')
             return redirect(url_for('regis_uid'))
     return render_template('registrasi_uid.html', last_uid=database['last_uid'])
 

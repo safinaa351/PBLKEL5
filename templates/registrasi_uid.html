@@ -31,6 +31,7 @@
             text-decoration: none;
             color: #333;
         }
+        
 
         .navbar-logo img {
             width: 40px;
@@ -88,7 +89,7 @@
         th {
             background-color: #f2f2f2;
         }
-
+       
         .features {
             display: flex;
             justify-content: center;
@@ -115,6 +116,54 @@
         text-align: center;
         z-index: 1000;
     }
+    form {
+            width: 360px; /* Sesuaikan lebar form */
+            margin: 50px auto;
+            padding: 6px 16px;
+            position: relative;
+        }
+        form line {
+            color: #ffffff;
+        }
+        form label {
+           color: #ffffff;
+           position: absolute;
+        top: 52%;
+        transform: translateY(-50%);
+        left: 36px; 
+        color: #ffffff; 
+        }
+
+        form input {
+            width: 100%;
+            height: 50px;
+            padding: 6px 16px;
+            margin-bottom: 15px;
+            border: 1px solid #cccccc00;
+            border-radius: 50px;
+            position: relative;
+            background-color: #ffffff15;
+            color: #ffffff;
+        }
+
+        form input:hover,
+        form input:focus {
+            border-color: #ffffff63; 
+            background-color: #f2f2f200;
+        }
+
+form input[type="submit"] {
+width: 330px;
+  height: 50px;
+  color: #000000;
+  font-family: 'Lato', Arial, sans-serif;
+  font-size: 15px;
+  background-color: #FBCEB5;
+  padding: 6px 16px;
+  border: none;
+  cursor: pointer;
+  border-radius: 50px;
+}
     </style>
 </head>
 
@@ -151,22 +200,45 @@
         <!-- Konten Contact Us di sini -->
         <h1>Card Registration</h1>
     
-    <form method="POST" action="/regis_uid">
-        <label for="uid">Card UID:</label>
-        <input type="text" name="uid" id="uid" value="{{ last_uid }}" readonly>
-        <br>
-        <label for="nama">Nama :</label>
-        <input type="text" name="nama" id="nama" required>
-        <br>
-        <input type="submit" value="Submit">
-    </form>
-
+        <form method="POST" action="/regis_uid" id="registrationForm">
+            <line for="uid">Card UID :</line>
+            <input type="text" name="uid" id="uid" value="{{ last_uid }}" readonly>
+            <br>
+            <label for="nama">Nama </label>
+            <input type="text" name="nama" id="nama" required>
+            <br>
+            <input type="submit" value="Submit">
+        </form>
+        +
+    
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                var namaInput = document.getElementById("nama");
+                var namaLabel = document.querySelector("form label[for='nama']");
+        
+                namaInput.addEventListener("focus", function () {
+                    namaLabel.style.display = "none";
+                });
+        
+                namaInput.addEventListener("blur", function () {
+                    if (namaInput.value === "") {
+                        namaLabel.style.display = "block";
+                    }
+                });
+            });
+        </script>
+        
     <script src="static/js/popper.js"></script>
     <script src="static/js/bootstrap.min.js"></script>
     <script src="static/js/main.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <footer class="footer">
+        <!-- ... Bagian Footer tetap sama ... -->
+        <div class="copy">Hak Cipta © 2023 Kelompok 5 Politeknik Negeri Jakarta</div>
+    </footer>
 </body>
 
 </html>

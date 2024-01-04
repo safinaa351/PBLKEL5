@@ -64,9 +64,9 @@
       <span class="navbar-text">Smart Door Lock</span>
     </a>
     <nav class="nav-items">
-      <a href="/home/room-info">Room Info</a>
-      <a href="/home/room-schedule">Room Schedule</a>
-      <a href="/home/contact-admin">Contact Admin</a>
+      <a href="/dashboard/room-info">Room Info</a>
+      <a href="/dashboard/room-schedule">Room Schedule</a>
+      <a href="/dashboard/contact-admin">Contact Admin</a>
       <a href="/logout">Logout</a>
     </nav>
   </div>
@@ -81,9 +81,8 @@
           <div class="room-info" id="roomInfo">
           </div>
           <div class="status-box">
-            <div class="status-indicator status-open" id="status"></div>
-            <div class="status-indicator status-closed"></div>
-          </div>
+            <div class="status-indicator" id="status"></div> <!-- Hapus kelas status-open dan status-closed dari sini -->
+        </div>
         </div>
     </div>
   </div>
@@ -94,6 +93,7 @@
   </footer>
 
   <script src="/static/js/home.js"></script>
+</script>
 </body>
 
 </html>
