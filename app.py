@@ -31,7 +31,7 @@ migrate = Migrate(app, db)
 class DatabaseRfid(db.Model):
     __tablename__ = 'log_rfid'
     id = db.Column(db.Integer, primary_key=True)
-    uid = db.Column(db.String(50), nullable=False)
+    no_rfid = db.Column(db.String(50), nullable=False)
     waktu = db.Column(db.DateTime,nullable=False)
     # timestamp = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
 
@@ -123,7 +123,7 @@ def access_log():
     data = [
         {
             "id": log.id,
-            "uid": log.uid,
+            "no_rfid": log.no_rfid,
             "waktu": log.waktu.strftime("%Y-%m-%d %H:%M:%S"),
             "timestamp": log.waktu,
             "status": "Available" if log.id % 2 == 0 else "Not Available"
