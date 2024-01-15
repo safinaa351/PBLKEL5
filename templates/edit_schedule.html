@@ -20,7 +20,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background-color: rgba(255, 255, 255, 0);
+            background-color: rgb(255, 255, 255);
             padding: 15px;
         }
 
@@ -28,7 +28,7 @@
             display: flex;
             align-items: center;
             text-decoration: none;
-            color: #ffffff;
+            color: #fcfcfc;
         }
         
 
@@ -43,7 +43,7 @@
         .navbar-text {
             font-weight: bold;
             font-size: 18px;
-            color:#f2f2f2
+            color:#ffffff;
         }
 
         .nav-items {
@@ -53,7 +53,7 @@
 
         .nav-items a {
             text-decoration: none;
-            color: #fffefe;
+            color: #333;
             font-weight: bold;
         }
 
@@ -170,20 +170,6 @@ width: 330px;
 </head>
 
 <body>
-    <div class="navbar">
-        <a class="navbar-logo" href="/admin">
-            <img src="/static/images/key.png" alt="Logo">
-            <span class="navbar-text">Smart Door Lock</span>
-        </a>
-        <nav class="nav-items">
-            <a href="/admin/account-registration">Account Registration</a>
-            <a href="/regis_uid">Card Registration</a>
-            <a href="/admin/manage_uid">Manage UID</a>
-            <a href="/admin/manage-room-schedule">Manage Schedule</a>
-            <a href="/logout">Logout</a>
-        </nav>
-    </div>
-
     {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
             <div class="row justify-content-center">
@@ -203,34 +189,23 @@ width: 330px;
 
     <div class="main-content">
         <!-- Konten Contact Us di sini -->
-        <h2>Card Registration</h2>
+        <h2>Edit Schedule</h2>
     
-        <form method="POST" action="/regis_uid" id="registrationForm">
-            <line for="uid">Card UID :</line>
-            <input type="text" name="uid" id="uid" value="{{ last_uid }}" readonly>
-            <br>
-            <label for="nama">Nama </label>
-            <input type="text" name="nama" id="nama" required>
-            <br>
-            <input type="submit" value="Submit">
-        </form>
-        
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                var namaInput = document.getElementById("nama");
-                var namaLabel = document.querySelector("form label[for='nama']");
-        
-                namaInput.addEventListener("focus", function () {
-                    namaLabel.style.display = "none";
-                });
-        
-                namaInput.addEventListener("blur", function () {
-                    if (namaInput.value === "") {
-                        namaLabel.style.display = "block";
-                    }
-                });
-            });
-        </script>
+    <form method="post" action="{{ url_for('edit_schedule', schedule_id=schedule_to_edit.id) }}">
+        <label for="day">Day:</label>
+        <input type="text" name="day" id="day" value="{{ schedule_to_edit.day }}" required><br>
+
+        <label for="time">Time:</label>
+        <input type="text" name="time" id="time" value="{{ schedule_to_edit.time }}" required><br>
+
+        <label for="subject">Subject:</label>
+        <input type="text" name="subject" id="subject" value="{{ schedule_to_edit.subject }}" required><br>
+
+        <label for="class_name">Class Name:</label>
+        <input type="text" name="class_name" id="class_name" value="{{ schedule_to_edit.class_name }}" required><br>
+
+        <button type="submit">Update Schedule</button>
+    </form>
         
     <script src="static/js/popper.js"></script>
     <script src="static/js/bootstrap.min.js"></script>
@@ -238,18 +213,6 @@ width: 330px;
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-    <footer class="footer">
-        <!-- ... Bagian Footer tetap sama ... -->
-        <div class="copy" id="copyright"></div>
-    
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                var currentYear = new Date().getFullYear();
-                document.getElementById('copyright').innerText = 'Hak Cipta © ' + currentYear + ' Kelompok 5 Politeknik Negeri Jakarta';
-            });
-        </script>
-    </footer>
 </body>
 
 </html>

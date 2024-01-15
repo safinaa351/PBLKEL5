@@ -20,27 +20,29 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background-color: rgb(255, 255, 255);
+            background-color: rgba(255, 255, 255, 0);
             padding: 15px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .navbar-logo {
             display: flex;
             align-items: center;
             text-decoration: none;
-            color: #333;
+            color: #ffffff;
         }
-
+            
         .navbar-logo img {
-            width: 40px;
-            height: auto;
-            margin-right: 10px;
-        }
+    
+    width: 50px;
+    height: auto;
+    margin-right: 10px;
+    filter: invert(100%);
+  }
 
         .navbar-text {
             font-weight: bold;
             font-size: 18px;
+            color:#fff
         }
 
         .nav-items {
@@ -50,7 +52,7 @@
 
         .nav-items a {
             text-decoration: none;
-            color: #333;
+            color: #fffdfd;
             font-weight: bold;
         }
 
@@ -105,6 +107,22 @@
             text-align: center;
             margin: 20px;
         }
+      
+.footer-home {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #000;
+  padding: 10px 0;
+  color: #fff;
+  text-align: center;
+  margin-top: 80px;
+  width: 100%;
+}
+
+.footer-home .copy {
+  color: #fff;
+}
     </style>
 </head>
 
@@ -115,15 +133,18 @@
             <span class="navbar-text">Smart Door Lock</span>
         </a>
         <nav class="nav-items">
+            <a href="/admin/account-registration">Account Registration</a>
             <a href="/regis_uid">Card Registration</a>
+            <a href="/admin/manage_uid">Manage UID</a>
+            <a href="/admin/manage-room-schedule">Manage Schedule</a>
             <a href="/logout">Logout</a>
         </nav>
     </div>
 
-    <div class="main-content">
+     <div class="main-content">
         <!-- Konten Contact Us di sini -->
         <div class="container">
-            <h1>Log Access</h1>
+           <h1>Log Access</h1>
             <table id="access_log_table">
                 <thead>
                     <tr>
@@ -205,14 +226,21 @@
 
         $(document).ready(function () {
             updateLogAccessTable();
-            setInterval(updateLogAccessTable, 1000); // Update every 5 seconds
+            setInterval(updateLogAccessTable, 1000); 
         });
     </script>
 
-    <footer class="footer">
-        <!-- ... Bagian Footer tetap sama ... -->
-        <div class="copy">Hak Cipta © 2023 Kelompok 5 Politeknik Negeri Jakarta</div>
-    </footer>
+<footer class="footer-home">
+    <!-- ... Bagian Footer tetap sama ... -->
+    <div class="copy" id="copyright"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var currentYear = new Date().getFullYear();
+            document.getElementById('copyright').innerText = 'Hak Cipta © ' + currentYear + ' Kelompok 5 Politeknik Negeri Jakarta';
+        });
+    </script>
+  </footer>
 
 </body>
 

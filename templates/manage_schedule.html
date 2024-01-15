@@ -30,20 +30,18 @@
             text-decoration: none;
             color: #ffffff;
         }
-        
 
         .navbar-logo img {
-    
-    width: 50px;
-    height: auto;
-    margin-right: 10px;
-    filter: invert(100%);
-  }
+            width: 50px;
+            height: auto;
+            margin-right: 10px;
+            filter: invert(100%);
+        }
 
         .navbar-text {
             font-weight: bold;
             font-size: 18px;
-            color:#f2f2f2
+            color: #fff
         }
 
         .nav-items {
@@ -53,7 +51,7 @@
 
         .nav-items a {
             text-decoration: none;
-            color: #fffefe;
+            color: #fffdfd;
             font-weight: bold;
         }
 
@@ -62,7 +60,7 @@
             margin-top: 150px;
             margin-bottom: 90px;
             background-color: #ffffff;
-            border-radius: 10px;
+            border-radius: 1px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             padding: 20px;
         }
@@ -77,7 +75,6 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
         }
 
         th,
@@ -91,7 +88,7 @@
         th {
             background-color: #f2f2f2;
         }
-       
+
         .features {
             display: flex;
             justify-content: center;
@@ -99,26 +96,23 @@
             padding: 50px 0;
         }
 
-        .gambar-tersangka {
-            width: 120px;
-            height: auto;
-        }
-
         .feature {
             text-align: center;
             margin: 20px;
         }
 
-        .custom-flash {
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        max-width: 400px; /* Adjust the maximum width as needed */
-        width: 100%;
-        text-align: center;
-        z-index: 1000;
-    }
-    form {
+        .btn-link,
+        .btn-danger {
+            display: inline-flex;
+            padding: 5px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 5px;
+        }
+
+        form {
             width: 360px; /* Sesuaikan lebar form */
             margin: 50px auto;
             padding: 6px 16px;
@@ -185,71 +179,75 @@ width: 330px;
     </div>
 
     {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-            <div class="row justify-content-center">
-                <div class="col-md-6">
-                  {% for category, message in messages %}
-                  <div class="alert alert-{{ category }} alert-dismissible fade show custom-flash" role="alert">
-                      {{ message }}
-                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                      </button>
-                  </div>
-                  {% endfor %} 
-                </div>
+    {% if messages %}
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            {% for category, message in messages %}
+            <div class="alert alert-{{ category }} alert-dismissible fade show custom-flash" role="alert">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-            {% endif %}
-            {% endwith %}
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+    {% endwith %}
 
     <div class="main-content">
-        <!-- Konten Contact Us di sini -->
-        <h2>Card Registration</h2>
+        <form method="post" action="{{ url_for('add_room_schedule') }}" id="addRoomScheduleForm">
+            <label for="day">Day:</label>
+            <input type="text" name="day" id="day" required><br>
     
-        <form method="POST" action="/regis_uid" id="registrationForm">
-            <line for="uid">Card UID :</line>
-            <input type="text" name="uid" id="uid" value="{{ last_uid }}" readonly>
-            <br>
-            <label for="nama">Nama </label>
-            <input type="text" name="nama" id="nama" required>
-            <br>
-            <input type="submit" value="Submit">
+            <label for="time">Time:</label>
+            <input type="text" name="time" id="time" required><br>
+    
+            <label for="subject">Subject:</label>
+            <input type="text" name="subject" id="subject" required><br>
+    
+            <label for="class_name">Class Name:</label>
+            <input type="text" name="class_name" id="class_name" required><br>
+    
+            <button type="submit">Add Room Schedule</button>
         </form>
-        
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                var namaInput = document.getElementById("nama");
-                var namaLabel = document.querySelector("form label[for='nama']");
-        
-                namaInput.addEventListener("focus", function () {
-                    namaLabel.style.display = "none";
-                });
-        
-                namaInput.addEventListener("blur", function () {
-                    if (namaInput.value === "") {
-                        namaLabel.style.display = "block";
-                    }
-                });
-            });
-        </script>
-        
-    <script src="static/js/popper.js"></script>
-    <script src="static/js/bootstrap.min.js"></script>
-    <script src="static/js/main.js"></script>
+    
+        <div class="schedule">
+            <h2>Manage UID</h2>
+            <table border="1">
+                <tr>
+                    <th>Day</th>
+                    <th>Time</th>
+                    <th>Subject</th>
+                    <th>Class Name</th>
+                    <th>Action</th>
+                </tr>
+                {% for schedule in schedules %}
+                    <tr>
+                        <td>{{ schedule.day }}</td>
+                        <td>{{ schedule.time }}</td>
+                        <td>{{ schedule.subject }}</td>
+                        <td>{{ schedule.class_name }}</td>
+                        <td class="action-buttons">
+                            <form action="{{ url_for('delete_schedule', schedule_id=schedule.id) }}" method="post">
+                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                            </form>
+                            <form action="{{ url_for('edit_schedule', schedule_id=schedule.id) }}" method="get">
+                                <button type="submit" class="btn btn-primary btn-sm">Edit</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+
+    <script src="/static/js/popper.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/main.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-    <footer class="footer">
-        <!-- ... Bagian Footer tetap sama ... -->
-        <div class="copy" id="copyright"></div>
-    
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                var currentYear = new Date().getFullYear();
-                document.getElementById('copyright').innerText = 'Hak Cipta © ' + currentYear + ' Kelompok 5 Politeknik Negeri Jakarta';
-            });
-        </script>
-    </footer>
 </body>
 
 </html>

@@ -30,20 +30,18 @@
             text-decoration: none;
             color: #ffffff;
         }
-        
 
         .navbar-logo img {
-    
-    width: 50px;
-    height: auto;
-    margin-right: 10px;
-    filter: invert(100%);
-  }
+            width: 50px;
+            height: auto;
+            margin-right: 10px;
+            filter: invert(100%);
+        }
 
         .navbar-text {
             font-weight: bold;
             font-size: 18px;
-            color:#f2f2f2
+            color: #fff
         }
 
         .nav-items {
@@ -53,7 +51,7 @@
 
         .nav-items a {
             text-decoration: none;
-            color: #fffefe;
+            color: #fffdfd;
             font-weight: bold;
         }
 
@@ -62,7 +60,7 @@
             margin-top: 150px;
             margin-bottom: 90px;
             background-color: #ffffff;
-            border-radius: 10px;
+            border-radius: 1px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             padding: 20px;
         }
@@ -77,7 +75,6 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
         }
 
         th,
@@ -91,7 +88,7 @@
         th {
             background-color: #f2f2f2;
         }
-       
+
         .features {
             display: flex;
             justify-content: center;
@@ -99,73 +96,21 @@
             padding: 50px 0;
         }
 
-        .gambar-tersangka {
-            width: 120px;
-            height: auto;
-        }
-
         .feature {
             text-align: center;
             margin: 20px;
         }
 
-        .custom-flash {
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        max-width: 400px; /* Adjust the maximum width as needed */
-        width: 100%;
-        text-align: center;
-        z-index: 1000;
-    }
-    form {
-            width: 360px; /* Sesuaikan lebar form */
-            margin: 50px auto;
-            padding: 6px 16px;
-            position: relative;
-        }
-        form line {
-            color: #ffffff;
-        }
-        form label {
-           color: #ffffff;
-           position: absolute;
-        top: 52%;
-        transform: translateY(-50%);
-        left: 36px; 
-        color: #ffffff; 
+        .btn-link,
+        .btn-danger {
+            display: inline-flex;
+            padding: 5px;
         }
 
-        form input {
-            width: 100%;
-            height: 50px;
-            padding: 6px 16px;
-            margin-bottom: 15px;
-            border: 1px solid #cccccc00;
-            border-radius: 50px;
-            position: relative;
-            background-color: #ffffff15;
-            color: #ffffff;
+        .action-buttons {
+            display: flex;
+            gap: 5px;
         }
-
-        form input:hover,
-        form input:focus {
-            border-color: #ffffff63; 
-            background-color: #f2f2f200;
-        }
-
-form input[type="submit"] {
-width: 330px;
-  height: 50px;
-  color: #000000;
-  font-family: 'Lato', Arial, sans-serif;
-  font-size: 15px;
-  background-color: #FBCEB5;
-  padding: 6px 16px;
-  border: none;
-  cursor: pointer;
-  border-radius: 50px;
-}
     </style>
 </head>
 
@@ -185,64 +130,63 @@ width: 330px;
     </div>
 
     {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-            <div class="row justify-content-center">
-                <div class="col-md-6">
-                  {% for category, message in messages %}
-                  <div class="alert alert-{{ category }} alert-dismissible fade show custom-flash" role="alert">
-                      {{ message }}
-                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                      </button>
-                  </div>
-                  {% endfor %} 
-                </div>
+    {% if messages %}
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            {% for category, message in messages %}
+            <div class="alert alert-{{ category }} alert-dismissible fade show custom-flash" role="alert">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-            {% endif %}
-            {% endwith %}
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+    {% endwith %}
 
     <div class="main-content">
-        <!-- Konten Contact Us di sini -->
-        <h2>Card Registration</h2>
-    
-        <form method="POST" action="/regis_uid" id="registrationForm">
-            <line for="uid">Card UID :</line>
-            <input type="text" name="uid" id="uid" value="{{ last_uid }}" readonly>
-            <br>
-            <label for="nama">Nama </label>
-            <input type="text" name="nama" id="nama" required>
-            <br>
-            <input type="submit" value="Submit">
-        </form>
-        
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                var namaInput = document.getElementById("nama");
-                var namaLabel = document.querySelector("form label[for='nama']");
-        
-                namaInput.addEventListener("focus", function () {
-                    namaLabel.style.display = "none";
-                });
-        
-                namaInput.addEventListener("blur", function () {
-                    if (namaInput.value === "") {
-                        namaLabel.style.display = "block";
-                    }
-                });
-            });
-        </script>
-        
-    <script src="static/js/popper.js"></script>
-    <script src="static/js/bootstrap.min.js"></script>
-    <script src="static/js/main.js"></script>
+        <div class="schedule">
+            <h2>Manage UID</h2>
+            <table class="schedule-table">
+                <thead>
+                    <tr>
+                        <th>UID</th>
+                        <th>Name</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for uid in uid_list %}
+                    <tr>
+                        <td>{{ uid.uid }}</td>
+                        <td>{{ uid.nama }}</td>
+                        <td class="action-buttons">
+                            <form action="{{ url_for('delete_uid', uid_id=uid.id) }}" method="post">
+                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                            </form>
+                            <form action="{{ url_for('edit_uid', uid_id=uid.id) }}" method="get">
+                                <button type="submit" class="btn btn-primary btn-sm">Edit</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="/static/js/popper.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/main.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <footer class="footer">
-        <!-- ... Bagian Footer tetap sama ... -->
         <div class="copy" id="copyright"></div>
-    
+
         <script>
             document.addEventListener('DOMContentLoaded', function () {
                 var currentYear = new Date().getFullYear();

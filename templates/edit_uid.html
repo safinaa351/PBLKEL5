@@ -20,7 +20,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background-color: rgba(255, 255, 255, 0);
+            background-color: rgb(255, 255, 255);
             padding: 15px;
         }
 
@@ -28,7 +28,7 @@
             display: flex;
             align-items: center;
             text-decoration: none;
-            color: #ffffff;
+            color: #fcfcfc;
         }
         
 
@@ -43,7 +43,7 @@
         .navbar-text {
             font-weight: bold;
             font-size: 18px;
-            color:#f2f2f2
+            color:#ffffff;
         }
 
         .nav-items {
@@ -53,7 +53,7 @@
 
         .nav-items a {
             text-decoration: none;
-            color: #fffefe;
+            color: #333;
             font-weight: bold;
         }
 
@@ -179,7 +179,6 @@ width: 330px;
             <a href="/admin/account-registration">Account Registration</a>
             <a href="/regis_uid">Card Registration</a>
             <a href="/admin/manage_uid">Manage UID</a>
-            <a href="/admin/manage-room-schedule">Manage Schedule</a>
             <a href="/logout">Logout</a>
         </nav>
     </div>
@@ -203,34 +202,12 @@ width: 330px;
 
     <div class="main-content">
         <!-- Konten Contact Us di sini -->
-        <h2>Card Registration</h2>
-    
-        <form method="POST" action="/regis_uid" id="registrationForm">
-            <line for="uid">Card UID :</line>
-            <input type="text" name="uid" id="uid" value="{{ last_uid }}" readonly>
-            <br>
-            <label for="nama">Nama </label>
-            <input type="text" name="nama" id="nama" required>
-            <br>
-            <input type="submit" value="Submit">
+        <h1>Edit UID</h1>
+        <form method="post" action="{{ url_for('edit_uid', uid_id=uid_to_edit.id) }}">
+            <label for="nama">Nama:</label>
+            <input type="text" name="nama" id="nama" value="{{ uid_to_edit.nama }}" required>
+            <button type="submit">Update UID</button>
         </form>
-        
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                var namaInput = document.getElementById("nama");
-                var namaLabel = document.querySelector("form label[for='nama']");
-        
-                namaInput.addEventListener("focus", function () {
-                    namaLabel.style.display = "none";
-                });
-        
-                namaInput.addEventListener("blur", function () {
-                    if (namaInput.value === "") {
-                        namaLabel.style.display = "block";
-                    }
-                });
-            });
-        </script>
         
     <script src="static/js/popper.js"></script>
     <script src="static/js/bootstrap.min.js"></script>

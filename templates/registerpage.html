@@ -8,7 +8,7 @@
 
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 	
-	<link rel="stylesheet" href="static/css/style-temp.css">
+	<link rel="stylesheet" href="/static/css/style-temp.css">
 
   <style>
     .custom-flash {
@@ -20,9 +20,14 @@
         text-align: center;
         z-index: 1000;
     }
+
+    select.form-control option {
+    /* background-color: transparent; */
+    color: black; /* Sesuaikan warna teks opsi jika diperlukan */
+}
 </style>
 	</head>
-  <body class="img js-fullheight" style="background-image: url(static/images/background.jpg);">
+  <body class="img js-fullheight" style="background-image: url(/static/images/background.jpg);">
     <section class="ftco-section">
       <div class="container">
         <div class="row justify-content-center">
@@ -50,7 +55,7 @@
           <div class="col-md-6 col-lg-4">
             <div class="login-wrap p-0">
               <h3 class="mb-4 text-center">Don't have an account?</h3>
-              <form action="/registrasi" class="signup-form" method="POST">
+              <form action="/admin/account-registration" class="signup-form" method="POST">
                 <div class="form-group">
                   <input type="email" class="form-control" placeholder="Email" id="email" name="email" required>
                 </div>
@@ -68,11 +73,17 @@
                   <input type="password" class="form-control" placeholder="Confirm Password" id="confirm_password" name="confirm_password" required>
                   <span toggle="#confirm_password" class="fa fa-fw fa-eye field-icon toggle-password" onclick="togglePassword(this)"></span>
               </div>
+              <div class="form-group">
+                <label for="role">Select Role:</label>
+                <select class="form-control" id="role" name="role" required>
+                    <option value="user">User</option>
+                    <option value="admin">Admin</option>
+                </select>
+              </div>
                 <div class="form-group">
-                  <button type="submit" class="form-control btn btn-primary submit px-3">Sign Up</button>
+                  <button type="submit" class="form-control btn btn-primary submit px-3">SIGN UP</button>
                 </div>
               </form>
-              <p class="w-100 text-center">&mdash; Already have an account? <a href="/">Sign In here</a> &mdash;</p>
             </div>
           </div>
         </div>
@@ -80,23 +91,20 @@
     </section>
     <script>
       function togglePassword(element) {
-    var passwordInput = document.querySelector(element.getAttribute("toggle"));
-    var toggleIcon = element;
+      var passwordInput = document.querySelector(element.getAttribute("toggle"));
+      var toggleIcon = element;
 
-    if (passwordInput.type === "password") {
-        passwordInput.type = "text";
-        toggleIcon.classList.remove("fa-eye");
-        toggleIcon.classList.add("fa-eye-slash");
-    } else {
-        passwordInput.type = "password";
-        toggleIcon.classList.remove("fa-eye-slash");
-        toggleIcon.classList.add("fa-eye");
+      if (passwordInput.type === "password") {
+          passwordInput.type = "text";
+          toggleIcon.classList.remove("fa-eye");
+          toggleIcon.classList.add("fa-eye-slash");
+      } else {
+          passwordInput.type = "password";
+          toggleIcon.classList.remove("fa-eye-slash");
+          toggleIcon.classList.add("fa-eye");
+      }
     }
-}
-  </script> 
-    <script src="static/js/popper.js"></script>
-    <script src="static/js/bootstrap.min.js"></script>
-    <script src="static/js/main.js"></script>
+    </script> 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
