@@ -181,7 +181,7 @@ body {
 }
 
 /* Schedule Styles */
-.schedule {
+  .schedule-table {   
   margin: 60px auto;
   text-align: center;
 }

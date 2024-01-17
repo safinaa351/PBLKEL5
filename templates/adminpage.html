@@ -32,12 +32,11 @@
         }
             
         .navbar-logo img {
-    
-    width: 50px;
-    height: auto;
-    margin-right: 10px;
-    filter: invert(100%);
-  }
+            width: 50px;
+            height: auto;
+            margin-right: 10px;
+            filter: invert(100%);
+        }
 
         .navbar-text {
             font-weight: bold;
@@ -98,7 +97,7 @@
             padding: 50px 0;
         }
 
-        .gambar-tersangka {
+        img {
             width: 120px;
             height: auto;
         }
@@ -108,21 +107,32 @@
             margin: 20px;
         }
       
-.footer-home {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #000;
-  padding: 10px 0;
-  color: #fff;
-  text-align: center;
-  margin-top: 80px;
-  width: 100%;
-}
+        .footer-home {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #000;
+        padding: 10px 0;
+        color: #fff;
+        text-align: center; 
+        margin-top: 80px;
+        width: 100%;
+        }
 
-.footer-home .copy {
-  color: #fff;
-}
+        .footer-home .copy {
+        color: #fff;
+        }
+
+        #pagination-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+
+        #pagination-container button {
+            padding: 5px 10px;
+            cursor: pointer;
+        }
     </style>
 </head>
 
@@ -148,87 +158,50 @@
             <table id="access_log_table">
                 <thead>
                     <tr>
-                        <!-- <th>NO</th> -->
                         <th>UID</th>
                         <th>ACCESS TIME</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="log-table-body">
 
                 </tbody>
             </table>
+            <div id="pagination-container">
+                <button id="prev-page">Previous</button>
+                <span id="current-page">Page 1</span>
+                <button id="next-page">Next</button>
+            </div>  
         </div>
     </div>
 
     <div class="container">
-        <h1>Suspicious Activity</h1>
-        <table>
+    <h1>Suspicious Activity</h1>
+    <table>
+        <thead>
             <tr>
-                <th>ID Card</th>
-                <th>Date</th>
-                <th>Time</th>
-                <th>Photo</th>
+                <th>ID</th>
+                <th>File Name</th>
+                <th>Image</th>
             </tr>
-            <tr>
-                <td>0fd24</td>
-                <td>2023-1-01</td>
-                <td>09:30:00</td>
-                <td><img src="/static/images/foto3.jpeg" class="gambar-tersangka" href="fototersangka"></td>
-            </tr>
-            <tr>
-                <td>243ef</td>
-                <td>2023-10-02</td>
-                <td>11:45:00</td>
-                <td><img src="/static/images/foto2.jpeg" class="gambar-tersangka" href="fototersangka"></td>
-            </tr>
-            <tr>
-                <td>65d34</td>
-                <td>2023-12-03</td>
-                <td>1:20:00</td>
-                <td><img src="/static/images/foto1.jpeg" class="gambar-tersangka" href="fototersangka"></td>
-            </tr>
-        </table>
-    </div>
+        </thead>
+        <tbody>
+            {% for image in images %}
+                <tr>
+                    <td>{{ image.id }}</td>
+                    <td>{{ image.file_name }}</td>
+                    <td>
+                        <img src="data:image/jpeg;base64,{{ image.image_data }}" alt="{{ image.file_name }}">
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script>
-        // Your AJAX script will go here
-        function updateLogAccessTable() {
-            // Send AJAX request to the server
-            $.ajax({
-                url: "/admin/access_log", // Replace with your actual API endpoint
-                method: "GET",
-                success: function (data) {
-                    // Clear the existing table content
-                    $("#access_log_table tbody").empty();
-
-                    // Get current time
-                    var currentTime = new Date();
-
-                    // Loop through the data and add rows within the last 24 hours
-                    for (var i = 0; i < data.length; i++) {
-                        var logTime = new Date(data[i].waktu); // Assuming data includes a timestamp field
-                        var timeDifference = currentTime - logTime;
-                        var timeDifferenceInHours = timeDifference / (1000 * 60 * 60); // Convert milliseconds to hours
-
-                        if (timeDifferenceInHours <= 24) {
-                            var row = "<tr>";
-                            //row += "<td>" + data[i].id + "</td>";
-                            row += "<td>" + data[i].no_rfid + "</td>";
-                            row += "<td>" + data[i].waktu + "</td>";
-                            row += "</tr>";
-                            $("#access_log_table tbody").append(row);
-                        }
-                    }
-                }
-            });
-        }
-
-        $(document).ready(function () {
-            updateLogAccessTable();
-            setInterval(updateLogAccessTable, 1000); 
-        });
-    </script>
+    <script src="/static/js/log-access.js"></script>
+    
 
 <footer class="footer-home">
     <!-- ... Bagian Footer tetap sama ... -->

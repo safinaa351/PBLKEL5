@@ -5,10 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart Lock Door</title>
-    <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
     <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
     <style>
         body {
             background-image: url('/static/images/background.jpg');
@@ -69,7 +69,7 @@
         h2 {
             text-align: center;
             margin-bottom: 20px;
-            color: #867a7a;
+            color: white;
         }
 
         table {
@@ -87,37 +87,29 @@
 
         th {
             background-color: #f2f2f2;
+            
         }
 
-        .features {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 50px 0;
-        }
-
-        .feature {
-            text-align: center;
-            margin: 20px;
-        }
-
-        .btn-link,
-        .btn-danger {
-            display: inline-flex;
-            padding: 5px;
-        }
+        
 
         .action-buttons {
             display: flex;
             gap: 5px;
         }
 
+        .schedule-action{
+            width: 90px; /* Sesuaikan lebar form */
+            margin: 0px;
+            position: relative;
+        }
+         
         form {
             width: 360px; /* Sesuaikan lebar form */
             margin: 50px auto;
             padding: 6px 16px;
             position: relative;
         }
+         
         form line {
             color: #ffffff;
         }
@@ -148,17 +140,64 @@
             background-color: #f2f2f200;
         }
 
-form input[type="submit"] {
-width: 330px;
-  height: 50px;
-  color: #000000;
-  font-family: 'Lato', Arial, sans-serif;
-  font-size: 15px;
-  background-color: #FBCEB5;
-  padding: 6px 16px;
-  border: none;
-  cursor: pointer;
-  border-radius: 50px;
+        form input[type="submit"] {
+        width: 330px;
+        height: 50px;
+        color: #000000;
+        font-family: 'Lato', Arial, sans-serif;
+        font-size: 15px;
+        background-color: #FBCEB5;
+        padding: 6px 16px;
+        border: none;
+        cursor: pointer;
+        border-radius: 50px;
+        }
+        .custom-flash {
+			position: fixed;
+			top: 20px;
+			right: 20px;
+			max-width: 400px; /* Adjust the maximum width as needed */
+			width: 100%;
+			text-align: center;
+			z-index: 1000;
+        background-color: #FBCEB5;
+		}
+        
+  .schedule-table {   
+  margin: 60px auto;
+  text-align: center;
+}
+
+.schedule h2 {
+  margin-bottom: 20px;
+  font-size: 40px;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.schedule-table {
+  width: 80%;
+  margin: auto;
+  border-collapse: collapse;
+  box-shadow: 0 4px 8px rgba(117, 113, 113, 0.418);
+}
+
+.schedule-table th,
+.schedule-table td {
+  text-align: center;
+  padding: 15px;
+  border-bottom: 1px solid #ddd;
+}
+
+.schedule-table th {
+  background-color: #f5f5f5;
+  color: #333;
+  font-weight: bold;
+}
+
+.schedule-table td {
+  color: #ffffff;
+  width: fit-content;
 }
     </style>
 </head>
@@ -196,32 +235,28 @@ width: 330px;
     {% endwith %}
 
     <div class="main-content">
+        <h1 class="title text-center mt-5">Add Schedule</h1>
         <form method="post" action="{{ url_for('add_room_schedule') }}" id="addRoomScheduleForm">
-            <label for="day">Day:</label>
-            <input type="text" name="day" id="day" required><br>
-    
-            <label for="time">Time:</label>
-            <input type="text" name="time" id="time" required><br>
-    
-            <label for="subject">Subject:</label>
-            <input type="text" name="subject" id="subject" required><br>
-    
-            <label for="class_name">Class Name:</label>
-            <input type="text" name="class_name" id="class_name" required><br>
-    
-            <button type="submit">Add Room Schedule</button>
+            <input type="text" name="day" id="day" placeholder="Day" required><br>
+            <input type="text" name="time" id="time" placeholder="Time" required><br>
+            <input type="text" name="subject" id="subject" placeholder="Subject" required><br>
+            <input type="text" name="class_name" id="class_name" placeholder="Class" required><br>
+            <input type="submit">Add Room Schedule</input>
         </form>
     
         <div class="schedule">
-            <h2>Manage UID</h2>
-            <table border="1">
+            <h2>Manage Schedule</h2>
+            <table class="schedule-table">
+                <thead>
                 <tr>
                     <th>Day</th>
                     <th>Time</th>
                     <th>Subject</th>
                     <th>Class Name</th>
-                    <th>Action</th>
+                    <th style="width: 10%;">Action</th>
                 </tr>
+                </thead>
+                <tbody>
                 {% for schedule in schedules %}
                     <tr>
                         <td>{{ schedule.day }}</td>
@@ -229,22 +264,20 @@ width: 330px;
                         <td>{{ schedule.subject }}</td>
                         <td>{{ schedule.class_name }}</td>
                         <td class="action-buttons">
-                            <form action="{{ url_for('delete_schedule', schedule_id=schedule.id) }}" method="post">
+                            <form action="{{ url_for('delete_schedule', schedule_id=schedule.id) }}" method="post" class="schedule-action">
                                 <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                             </form>
-                            <form action="{{ url_for('edit_schedule', schedule_id=schedule.id) }}" method="get">
+                            <form action="{{ url_for('edit_schedule', schedule_id=schedule.id) }}" method="get" class="schedule-action">
                                 <button type="submit" class="btn btn-primary btn-sm">Edit</button>
                             </form>
                         </td>
                     </tr>
                 {% endfor %}
+                </tbody>
             </table>
         </div>
     </div>
 
-    <script src="/static/js/popper.js"></script>
-    <script src="/static/js/bootstrap.min.js"></script>
-    <script src="/static/js/main.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

@@ -192,24 +192,13 @@ width: 330px;
         <h2>Edit Schedule</h2>
     
     <form method="post" action="{{ url_for('edit_schedule', schedule_id=schedule_to_edit.id) }}">
-        <label for="day">Day:</label>
-        <input type="text" name="day" id="day" value="{{ schedule_to_edit.day }}" required><br>
-
-        <label for="time">Time:</label>
-        <input type="text" name="time" id="time" value="{{ schedule_to_edit.time }}" required><br>
-
-        <label for="subject">Subject:</label>
-        <input type="text" name="subject" id="subject" value="{{ schedule_to_edit.subject }}" required><br>
-
-        <label for="class_name">Class Name:</label>
-        <input type="text" name="class_name" id="class_name" value="{{ schedule_to_edit.class_name }}" required><br>
-
-        <button type="submit">Update Schedule</button>
+        <input type="text" name="day" id="day" value="{{ schedule_to_edit.day }}" placeholder="Day" required><br>
+        <input type="text" name="time" id="time" value="{{ schedule_to_edit.time }}" placeholder="Subject" required><br>
+        <input type="text" name="subject" id="subject" value="{{ schedule_to_edit.subject }}" placeholder="Subject" required><br>
+        <input type="text" name="class_name" id="class_name" value="{{ schedule_to_edit.class_name }}" placeholder="Subject" required><br>
+        <input type="submit">Update Schedule</input>
     </form>
         
-    <script src="static/js/popper.js"></script>
-    <script src="static/js/bootstrap.min.js"></script>
-    <script src="static/js/main.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

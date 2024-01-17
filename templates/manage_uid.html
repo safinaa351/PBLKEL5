@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart Lock Door</title>
-    <link rel="stylesheet" href="/static/css/style.css">
+ 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
     <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -111,6 +111,43 @@
             display: flex;
             gap: 5px;
         }
+            
+  .schedule-table {   
+  margin: 60px auto;
+  text-align: center;
+}
+
+.schedule h2 {
+  margin-bottom: 20px;
+  font-size: 40px;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.schedule-table {
+  width: 80%;
+  margin: auto;
+  border-collapse: collapse;
+  box-shadow: 0 4px 8px rgba(117, 113, 113, 0.418);
+}
+
+.schedule-table th,
+.schedule-table td {
+  text-align: center;
+  padding: 15px;
+  border-bottom: 1px solid #ddd;
+}
+
+.schedule-table th {
+  text-align: center;
+  background-color: #f5f5f5;
+  color: #333;
+  font-weight: bold;
+}
+
+.schedule-table td {
+  color: #ffffff;
+}
     </style>
 </head>
 
@@ -154,7 +191,7 @@
                     <tr>
                         <th>UID</th>
                         <th>Name</th>
-                        <th>Action</th>
+                        <th style="width: 10%;">Action</th>
                     </tr>
                 </thead>
                 <tbody>

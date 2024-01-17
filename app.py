@@ -6,7 +6,9 @@ from flask_migrate import Migrate
 from dotenv import load_dotenv
 from itsdangerous import URLSafeTimedSerializer
 from flask_mail import Message, Mail
+from sqlalchemy.dialects.mysql import MEDIUMBLOB
 from functools import wraps
+import base64
 import pytz
 import os
 
@@ -55,6 +57,13 @@ class Schedule(db.Model):
     time = db.Column(db.String(15), nullable=False)
     subject = db.Column(db.String(50), nullable=False)
     class_name = db.Column(db.String(30), nullable=False)
+
+class Images(db.Model):
+    __tablename__ = 'images'
+
+    id = db.Column(db.Integer, primary_key=True)
+    file_name =  db.Column(db.String(255), nullable=False)
+    image_data = db.Column(MEDIUMBLOB)
 
 serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
 
@@ -123,7 +132,22 @@ def home():
 @app.route('/admin')
 @check_session
 def admin():
-    return render_template('adminpage.html')
+    try:
+        images = Images.query.all()
+
+        # Check if images are found in the database
+        if images:
+            for image in images:
+                # Encode the binary data to base64
+                image.image_data = base64.b64encode(image.image_data).decode('utf-8')
+
+            return render_template('adminpage.html', images=images)
+        else:
+            return render_template('adminpage.html', images=[])
+    except Exception as e:
+        # Handle the exception (e.g., log it)
+        error_message = f"Error: {str(e)}"
+        return render_template('adminpage.html', images=[], error_message=error_message)
 
 @app.route('/admin/manage-room-schedule')
 @check_session
@@ -151,6 +175,18 @@ def store_uid():
 def access_log():
     # Fetch log access data from the DatabaseRfid table
     log_access_data = DatabaseRfid.query.all()
+
+    # Check if log_access_data is empty
+    if not log_access_data:
+        # If no data is found, set a default entry with status 'Available'
+        default_entry = {
+            "id": 0,
+            "no_rfid": "N/A",
+            "waktu": "N/A",
+            "timestamp": "N/A",
+            "status": "Available"
+        }
+        return jsonify([default_entry])
 
     # Convert the data to a list of dictionaries
     data = [

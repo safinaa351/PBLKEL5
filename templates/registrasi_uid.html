@@ -209,10 +209,10 @@ width: 330px;
             <line for="uid">Card UID :</line>
             <input type="text" name="uid" id="uid" value="{{ last_uid }}" readonly>
             <br>
-            <label for="nama">Nama </label>
+            <line for="nama">Nama : </line>
             <input type="text" name="nama" id="nama" required>
             <br>
-            <input type="submit" value="Submit">
+            <input type="submit" value="Add Card">
         </form>
         
         <script>
@@ -239,17 +239,7 @@ width: 330px;
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-    <footer class="footer">
-        <!-- ... Bagian Footer tetap sama ... -->
-        <div class="copy" id="copyright"></div>
-    
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                var currentYear = new Date().getFullYear();
-                document.getElementById('copyright').innerText = 'Hak Cipta © ' + currentYear + ' Kelompok 5 Politeknik Negeri Jakarta';
-            });
-        </script>
-    </footer>
+   
 </body>
 
 </html>
