@@ -453,8 +453,6 @@ def regis_uid():
             db.session.commit()
             flash('Your card successfully registered!')
             return redirect(url_for('regis_uid'))
-
-    # Mendapatkan nilai last_uid dari database atau sesuai kebutuhan aplikasi
     last_uid = database['last_uid']
     return render_template('registrasi_uid.html', last_uid=last_uid)
 
