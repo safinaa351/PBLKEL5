@@ -1,114 +1,12 @@
-from flask import Flask, render_template, request, redirect, url_for, session, flash, make_response, jsonify
-from flask_sqlalchemy import SQLAlchemy
+# app/routes.py
+from flask import render_template, request, redirect, url_for, session, flash, make_response, jsonify
+from app import app, db
+from app.models import DatabaseRfid, User, Uid, Schedule, Images
+from app.utils import check_session, verify_reset_token, generate_reset_token, send_reset_email
 from werkzeug.security import generate_password_hash, check_password_hash
-from datetime import datetime, timedelta
-from flask_migrate import Migrate
-from dotenv import load_dotenv
-from itsdangerous import URLSafeTimedSerializer
-from flask_mail import Message, Mail
-from sqlalchemy.dialects.mysql import MEDIUMBLOB
-from functools import wraps
 import base64
 import pytz
-import os
-
-load_dotenv()
-
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URI')
-app.config['SECRET_KEY'] = os.urandom(24)
-app.config['MAIL_SERVER'] = os.getenv('MAIL_SERVER')
-app.config['MAIL_PORT'] = int(os.getenv('MAIL_PORT'))
-app.config['MAIL_USE_TLS'] = os.getenv('MAIL_USE_TLS') == 'True'
-app.config['MAIL_USE_SSL'] = os.getenv('MAIL_USE_SSL') == 'True'
-app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
-app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
-app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_DEFAULT_SENDER')
-
-
-mail = Mail(app)
-db = SQLAlchemy(app)
-migrate = Migrate(app, db)
-
-class DatabaseRfid(db.Model):
-    __tablename__ = 'log_rfid'
-    id = db.Column(db.Integer, primary_key=True)
-    no_rfid = db.Column(db.String(50), nullable=False)
-    waktu = db.Column(db.DateTime,nullable=False)
-    
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(50), unique = True, nullable=False)
-    nama = db.Column(db.String(50), nullable=False)
-    username = db.Column(db.String(50), unique=True, nullable=False)
-    role = db.Column(db.String(10))
-    password = db.Column(db.String(256), nullable=False)
-
-class Uid(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    uid = db.Column(db.String(50), unique=True, nullable=False)
-    nama = db.Column(db.String(100), nullable=False)
-
-class Schedule(db.Model):
-    __tablename__ = 'tb_roomschedules'
-
-    id = db.Column(db.Integer, primary_key=True)
-    day = db.Column(db.String(10), nullable=False)
-    time = db.Column(db.String(15), nullable=False)
-    subject = db.Column(db.String(50), nullable=False)
-    class_name = db.Column(db.String(30), nullable=False)
-
-class Images(db.Model):
-    __tablename__ = 'images'
-
-    id = db.Column(db.Integer, primary_key=True)
-    file_name =  db.Column(db.String(255), nullable=False)
-    image_data = db.Column(MEDIUMBLOB)
-
-serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
-
-def generate_reset_token(email):
-    return serializer.dumps(email, salt='reset-password-salt')
-
-def verify_reset_token(token, expiration=300):
-    try:
-        email = serializer.loads(token, salt='reset-password-salt', max_age=expiration)
-    except:
-        return None
-    return email
-
-def send_reset_email(email, token):
-    reset_link = url_for('reset_password', token=token, _external=True)
-    msg = Message('Reset Your Password', recipients=[email])
-    msg.body = f'Click the following link to reset your password: {reset_link}'
-    mail.send(msg)
-
-def check_session(f):
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        if 'logged_in' in session:
-            # Jika sesi telah berakhir (lebih dari 15 menit), arahkan ke halaman login
-            if 'login_time' in session:
-                elapsed_time = (datetime.now(pytz.utc) - session['login_time']).seconds
-                if elapsed_time >= 900:
-                    # ... (kode lain untuk menghandle sesi yang telah berakhir)
-                    flash('Your session has ended, please log in again.', 'danger')
-                    session.pop('logged_in', None)
-                    session.pop('username', None)
-                    session.pop('login_time', None)
-                    return redirect(url_for('login'))
-                else:
-                    # Perbarui waktu login hanya jika sisa waktu kurang dari 900 detik
-                    if elapsed_time < 900:
-                        session['login_time'] = datetime.now(pytz.utc)
-                        session.permanent = True
-                        app.permanent_session_lifetime = timedelta(seconds=900 - elapsed_time)
-            response = make_response(f(*args, **kwargs))
-            response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
-            return response
-        flash('Please login first', 'danger')
-        return redirect(url_for('login'))
-    return decorated_function
+from datetime import datetime
 
 database = {'last_uid': None}
 
@@ -455,8 +353,3 @@ def regis_uid():
             return redirect(url_for('regis_uid'))
     last_uid = database['last_uid']
     return render_template('registrasi_uid.html', last_uid=last_uid)
-
-if __name__ == '__main__':
-    with app.app_context():
-        db.create_all()
-    app.run(host='0.0.0.0',debug=True)

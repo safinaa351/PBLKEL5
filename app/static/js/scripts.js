@@ -4,4 +4,3 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
     // For example: perform form validation, authentication, etc.
     console.log('Login clicked');
   });
-  
