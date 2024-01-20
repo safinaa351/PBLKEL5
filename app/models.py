@@ -1,12 +1,11 @@
-# app/models.py
 from app import db
 from sqlalchemy.dialects.mysql import MEDIUMBLOB
 
-class DatabaseRfid(db.Model):
-    __tablename__ = 'log_rfid'
+class Logaccess(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     no_rfid = db.Column(db.String(50), nullable=False)
     waktu = db.Column(db.DateTime,nullable=False)
+    access = db.Column(db.String(50), nullable=False)
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -30,9 +29,8 @@ class Schedule(db.Model):
     subject = db.Column(db.String(50), nullable=False)
     class_name = db.Column(db.String(30), nullable=False)
 
-class Images(db.Model):
-    __tablename__ = 'images'
-
+class photoEvidence(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    access_time = db.Column(db.DateTime, nullable=False)
     file_name =  db.Column(db.String(255), nullable=False)
     image_data = db.Column(MEDIUMBLOB)

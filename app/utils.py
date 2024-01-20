@@ -1,4 +1,3 @@
-# app/utils.py
 from flask import flash, redirect, url_for, make_response, session
 from datetime import datetime, timedelta
 from app import app, mail, serializer
@@ -22,29 +21,74 @@ def send_reset_email(email, token):
     msg.body = f'Click the following link to reset your password: {reset_link}'
     mail.send(msg)
 
-def check_session(f):
+def check_user_session(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+            if 'logged_in' in session:
+                # Jika sesi telah berakhir (lebih dari 15 menit), arahkan ke halaman login
+                if 'login_time' in session:
+                    elapsed_time = (datetime.now(pytz.utc) - session['login_time']).seconds
+                    if elapsed_time >= 900:
+                        # ... (kode lain untuk menghandle sesi yang telah berakhir)
+                        flash('Your session has ended, please log in again.', 'danger')
+                        session.pop('logged_in', None)
+                        session.pop('username', None)
+                        session.pop('login_time', None)
+                        return redirect(url_for('login'))
+                    else:
+                        # Perbarui waktu login hanya jika sisa waktu kurang dari 900 detik
+                        if elapsed_time < 900:
+                            session['login_time'] = datetime.now(pytz.utc)
+                            session.permanent = True
+                            app.permanent_session_lifetime = timedelta(seconds=900 - elapsed_time)
+
+                # Pengecekan peran pengguna
+                if 'role' in session and session['role'] == 'user':
+                    response = make_response(f(*args, **kwargs))
+                    response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
+                    return response
+
+                flash('You do not have permission to access the page', 'danger')
+                return redirect(url_for('login'))
+
+            flash('Please login first', 'danger')
+            return redirect(url_for('login'))
+    return decorated_function
+
+def check_admin_session(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if 'logged_in' in session:
-            # Jika sesi telah berakhir (lebih dari 15 menit), arahkan ke halaman login
-            if 'login_time' in session:
-                elapsed_time = (datetime.now(pytz.utc) - session['login_time']).seconds
-                if elapsed_time >= 900:
-                    # ... (kode lain untuk menghandle sesi yang telah berakhir)
-                    flash('Your session has ended, please log in again.', 'danger')
-                    session.pop('logged_in', None)
-                    session.pop('username', None)
-                    session.pop('login_time', None)
-                    return redirect(url_for('login'))
-                else:
-                    # Perbarui waktu login hanya jika sisa waktu kurang dari 900 detik
-                    if elapsed_time < 900:
-                        session['login_time'] = datetime.now(pytz.utc)
-                        session.permanent = True
-                        app.permanent_session_lifetime = timedelta(seconds=900 - elapsed_time)
-            response = make_response(f(*args, **kwargs))
-            response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
-            return response
+                # Jika sesi telah berakhir (lebih dari 15 menit), arahkan ke halaman login
+                if 'login_time' in session:
+                    elapsed_time = (datetime.now(pytz.utc) - session['login_time']).seconds
+                    if elapsed_time >= 900:
+                        # ... (kode lain untuk menghandle sesi yang telah berakhir)
+                        flash('Your session has ended, please log in again.', 'danger')
+                        session.pop('logged_in', None)
+                        session.pop('username', None)
+                        session.pop('login_time', None)
+                        return redirect(url_for('login'))
+                    else:
+                        # Perbarui waktu login hanya jika sisa waktu kurang dari 900 detik
+                        if elapsed_time < 900:
+                            session['login_time'] = datetime.now(pytz.utc)
+                            session.permanent = True
+                            app.permanent_session_lifetime = timedelta(seconds=900 - elapsed_time)
+
+                # Pengecekan peran pengguna
+                if 'role' in session and session['role'] == 'admin':
+                    response = make_response(f(*args, **kwargs))
+                    response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
+                    return response
+
+                flash('You do not have permission to access the page', 'danger')
+                return redirect(url_for('login'))
         flash('Please login first', 'danger')
         return redirect(url_for('login'))
+
     return decorated_function
+
+def total_access_granted(log_access_data):
+    # Calculate the total access granted in the log access data
+    return sum(1 for log in log_access_data if log.access == 'GRANTED')

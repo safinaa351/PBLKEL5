@@ -24,6 +24,17 @@
             padding: 15px;
         }
 
+        .custom-flash {
+			position: fixed;
+			top: 20px;
+			right: 20px;
+			max-width: 400px; /* Adjust the maximum width as needed */
+			width: 100%;
+			text-align: center;
+			z-index: 1000;
+            background-color: #FBCEB5;
+		}
+
         .navbar-logo {
             display: flex;
             align-items: center;
@@ -90,11 +101,13 @@
             
         }
 
-        
-
         .action-buttons {
             display: flex;
             gap: 5px;
+        }
+
+        .schedule{
+            margin-bottom: 5%;
         }
 
         .schedule-action{
@@ -113,13 +126,14 @@
         form line {
             color: #ffffff;
         }
+
         form label {
-           color: #ffffff;
-           position: absolute;
-        top: 52%;
-        transform: translateY(-50%);
-        left: 36px; 
-        color: #ffffff; 
+            color: #ffffff;
+            position: absolute;
+            top: 52%;
+            transform: translateY(-50%);
+            left: 36px; 
+            color: #ffffff; 
         }
 
         form input {
@@ -199,6 +213,30 @@
   color: #ffffff;
   width: fit-content;
 }
+
+#pagination-container {
+    width: 230px; /* Menghapus titik koma ekstra */
+    margin: 10px auto; /* Menggunakan auto untuk margin atas dan bawah, dan center untuk posisi horizontal */
+    display: flex;
+    justify-content: center; /* Menggunakan justify-content untuk mengatur posisi horizontal */
+    gap: 30px; /* Mengganti gap dari 10% menjadi 10px */
+    color: #ffffff;
+    border-radius: 10px;
+    padding: 10px; /* Menambahkan padding agar konten tidak berhimpit dengan batas elemen */
+}
+
+#pagination-container button {
+    padding: 5px 10px;
+    cursor: pointer;
+    margin: 0 40px;
+    border-radius: 20px; /* Menambahkan border-radius pada tombol */
+}
+#pagination-container span {
+    padding: 5px 10px;
+    position: absolute;
+    margin: 0;
+    margin-left: 20px; /* Menambahkan margin ke kanan sekitar 10px */
+}
     </style>
 </head>
 
@@ -275,12 +313,18 @@
                 {% endfor %}
                 </tbody>
             </table>
+            <div id="pagination-container">
+                <button id="prev-page">Previous</button>
+                <span id="current-page">Page 1</span>
+                <button id="next-page">Next</button>
+             </div>
         </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="/static/js/pagination.js"></script>
 </body>
 
 </html>

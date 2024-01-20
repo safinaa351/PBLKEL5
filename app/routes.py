@@ -1,8 +1,8 @@
 # app/routes.py
-from flask import render_template, request, redirect, url_for, session, flash, make_response, jsonify
+from flask import render_template, request, redirect, url_for, session, flash, jsonify
 from app import app, db
-from app.models import DatabaseRfid, User, Uid, Schedule, Images
-from app.utils import check_session, verify_reset_token, generate_reset_token, send_reset_email
+from app.models import Logaccess, User, Uid, Schedule, photoEvidence
+from app.utils import check_admin_session, check_user_session, verify_reset_token, generate_reset_token, send_reset_email, total_access_granted
 from werkzeug.security import generate_password_hash, check_password_hash
 import base64
 import pytz
@@ -11,27 +11,27 @@ from datetime import datetime
 database = {'last_uid': None}
 
 @app.route('/dashboard/room-info/')
-@check_session
+@check_user_session
 def room_info():
     return render_template('room_info.html')
 
 # Route untuk schedule
 @app.route('/dashboard/room-schedule/')
-@check_session
+@check_user_session
 def schedule():
     schedules = Schedule.query.all()
     return render_template('schedule.html', schedules=schedules)
 
 @app.route('/dashboard')
-@check_session
+@check_user_session
 def home():
     return render_template('homepage.html')
 
 @app.route('/admin')
-@check_session
+@check_admin_session
 def admin():
     try:
-        images = Images.query.all()
+        images = photoEvidence.query.all()
 
         # Check if images are found in the database
         if images:
@@ -48,7 +48,7 @@ def admin():
         return render_template('adminpage.html', images=[], error_message=error_message)
 
 @app.route('/admin/manage-room-schedule')
-@check_session
+@check_admin_session
 def manage_schedule():
     schedules = Schedule.query.all()
     return render_template('manage_schedule.html', schedules=schedules)
@@ -60,7 +60,7 @@ def store_uid():
         waktu_sekarang = datetime.now()
 
         try:
-            new_log = DatabaseRfid(no_rfid=uid, waktu=waktu_sekarang)
+            new_log = Logaccess(no_rfid=uid, waktu=waktu_sekarang)
             db.session.add(new_log)
             db.session.commit()
             return "Data UID berhasil disimpan ke database.\n" \
@@ -72,7 +72,7 @@ def store_uid():
 @app.route('/admin/access_log')
 def access_log():
     # Fetch log access data from the DatabaseRfid table
-    log_access_data = DatabaseRfid.query.all()
+    log_access_data = Logaccess.query.all()
 
     # Check if log_access_data is empty
     if not log_access_data:
@@ -93,21 +93,26 @@ def access_log():
             "no_rfid": log.no_rfid,
             "waktu": log.waktu.strftime("%Y-%m-%d %H:%M:%S"),
             "timestamp": log.waktu,
-            "status": "Available" if log.id % 2 == 0 else "Not Available"
+            "access": log.access,
+            "status": "Not Available" if total_access_granted(log_access_data) % 2 == 1 else "Available"
         }
         for log in log_access_data
     ]
+
+    if data[-1]['no_rfid'] and data[-1]['access'] == 'DENIED':
+        database['last_uid'] = data[-1]['no_rfid']
+
     # Return the data as JSON
     return jsonify(data)
 
 @app.route('/admin/manage_uid')
-@check_session
+@check_admin_session
 def manage_uid():
     uid_list = Uid.query.all()
     return render_template('manage_uid.html', uid_list=uid_list)
     
 @app.route('/admin/delete_uid/<int:uid_id>', methods=['POST'])
-@check_session
+@check_admin_session
 def delete_uid(uid_id):
     uid_to_delete = Uid.query.get(uid_id)
     if uid_to_delete:
@@ -119,7 +124,7 @@ def delete_uid(uid_id):
     return redirect(url_for('manage_uid'))
 
 @app.route('/admin/edit_uid/<int:uid_id>', methods=['GET', 'POST'])
-@check_session
+@check_admin_session
 def edit_uid(uid_id):
     if request.method == 'GET':
         uid_to_edit = Uid.query.get(uid_id)
@@ -155,7 +160,7 @@ def add_room_schedule():
     return redirect(url_for('manage_schedule'))
 
 @app.route('/admin/edit_schedule/<int:schedule_id>', methods=['GET', 'POST'])
-@check_session
+@check_admin_session
 def edit_schedule(schedule_id):
     if request.method == 'GET':
         schedule_to_edit = Schedule.query.get(schedule_id)
@@ -183,7 +188,7 @@ def edit_schedule(schedule_id):
             return redirect(url_for('manage_schedule'))
 
 @app.route('/admin/delete_schedule/<int:schedule_id>', methods=['POST'])
-@check_session
+@check_admin_session
 def delete_schedule(schedule_id):
     schedule_to_delete = Schedule.query.get(schedule_id)
     if schedule_to_delete:
@@ -195,7 +200,7 @@ def delete_schedule(schedule_id):
     return redirect(url_for('manage_schedule'))
 
 @app.route('/admin/account-registration', methods=['GET', 'POST'])
-@check_session
+@check_admin_session
 def registrasi():
     if request.method == 'POST':
         email = request.form['email']
@@ -216,7 +221,7 @@ def registrasi():
 
         user = User.query.filter((User.email==email) | (User.username==username)).first()
         if user is None and password == confirm_password:
-            new_user = User(email=email, nama=nama, username=username, password=generate_password_hash(password), role=role)
+            new_user = User(email=email, nama=nama, username=username, password=generate_password_hash(password, method='pbkdf2:sha256'), role=role)
             db.session.add(new_user)
             db.session.commit()
             flash("Account successfully registered", 'success')
@@ -230,6 +235,12 @@ def registrasi():
 
 @app.route('/', methods=['GET', 'POST'])
 def login():
+    if 'role' in session:
+        if session['role'] == 'admin':
+            return redirect(url_for('admin'))
+        elif session['role'] == 'user':
+            return redirect(url_for('home'))
+
     if request.method == 'POST':
         identifier = request.form['identifier']
         password = request.form['password']
@@ -258,6 +269,10 @@ def login():
 def logout():
     session.pop('logged_in', None)
     session.pop('username', None)
+    session.pop('role', None)
+    session.pop('login_time', None)
+
+    flash('You have been logged out', 'success')
     return redirect(url_for('login'))
 
 @app.route('/reset_password_request', methods=['GET', 'POST'])
@@ -319,24 +334,8 @@ def reset_password(token):
 
     return render_template('reset_password.html', token=token)
 
-@app.route('/api/catch_uid', methods=['POST'])
-def nfc_scan():
-    try:
-        data = request.get_json()
-        uid = data['uid']
-
-        # Update UID terakhir di database
-        database['last_uid'] = uid
-        response = {'status': 'success', 'message': f'UID {uid} diterima'}
-        return jsonify(response)
-
-    except Exception as e:
-        error_message = f'Error: {str(e)}'
-        response = {'status': 'error', 'message': error_message}
-        return jsonify(response)
-
 @app.route('/regis_uid', methods=['GET', 'POST'])
-@check_session
+@check_admin_session
 def regis_uid():
     if request.method == 'POST':
         uid = database['last_uid']
@@ -344,6 +343,9 @@ def regis_uid():
         uid_record = Uid.query.filter_by(uid=uid).first()
         if uid_record:
             flash('The UID already exists', 'warning')
+            return redirect(url_for('regis_uid'))
+        elif uid == None:
+            flash('Scan your card first', 'danger')
             return redirect(url_for('regis_uid'))
         else:
             new_uid = Uid(uid=uid, nama=nama)

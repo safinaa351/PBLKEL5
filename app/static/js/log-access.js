@@ -6,12 +6,25 @@ $(document).ready(function () {
 
     // Function to update the log access table
     function updateLogAccessTable() {
-        // Send AJAX request to the server
+        // Calculate the timestamp for 24 hours ago
+        var twentyFourHoursAgo = new Date();
+        twentyFourHoursAgo.setHours(twentyFourHoursAgo.getHours() - 24);
+
+        // Send AJAX request to the server with the time filter
         $.ajax({
-            url: "/admin/access_log", // Replace with your actual API endpoint
+            url: "/admin/access_log",
             method: "GET",
+            data: { startTime: twentyFourHoursAgo.toISOString() }, // Send the start time as a parameter
             success: function (responseData) {
-                data = responseData; // Update global data variable
+                // Sort data by log time in descending order
+                data = responseData.sort(function (a, b) {
+                    return new Date(b.waktu) - new Date(a.waktu);
+                });
+
+                // Filter data for the last 24 hours
+                data = data.filter(function (log) {
+                    return new Date(log.waktu) >= twentyFourHoursAgo;
+                });
 
                 // Clear the existing table content
                 $(".log-table-body").empty();
@@ -27,6 +40,7 @@ $(document).ready(function () {
                     var row = "<tr>";
                     row += "<td>" + data[i].no_rfid + "</td>";
                     row += "<td>" + data[i].waktu + "</td>";
+                    row += "<td>" + data[i].access + "</td>";
                     row += "</tr>";
                     $(".log-table-body").append(row);
                 }
@@ -62,3 +76,31 @@ $(document).ready(function () {
 
     setInterval(updateLogAccessTable, 1000);
 });
+
+function openModal(imageData, fileName) {
+    // Mendapatkan ID modal berdasarkan nama file
+    var modalId = "myModal_" + fileName;
+  
+    // Menampilkan modal
+    var modalElement = document.getElementById(modalId);
+    if (modalElement) {
+      modalElement.style.display = 'block';
+  
+      // Menentukan gambar yang akan ditampilkan dalam modal
+      var modalImgElement = modalElement.querySelector('img');
+      if (modalImgElement) {
+        modalImgElement.src = "data:image/jpeg;base64," + imageData;
+      }
+    }
+  }
+  
+  function closeModal(fileName) {
+    // Mendapatkan ID modal berdasarkan nama file
+    var modalId = "myModal_" + fileName;
+  
+    // Menutup modal
+    var modalElement = document.getElementById(modalId);
+    if (modalElement) {
+      modalElement.style.display = 'none';
+    }
+  }

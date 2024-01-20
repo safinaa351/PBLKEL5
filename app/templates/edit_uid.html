@@ -71,7 +71,7 @@
         h2 {
             text-align: center;
             margin-bottom: 20px;
-            color: #867a7a;
+            color: white;
         }
 
         table {
@@ -168,7 +168,6 @@ width: 330px;
 }
     </style>
 </head>
-
 <body>
     {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
@@ -191,8 +190,7 @@ width: 330px;
         <!-- Konten Contact Us di sini -->
         <h1>Edit UID</h1>
         <form method="post" action="{{ url_for('edit_uid', uid_id=uid_to_edit.id) }}">
-            <label for="nama">Nama:</label>
-            <input type="text" name="nama" id="nama" value="{{ uid_to_edit.nama }}" required>
+            <input type="text" name="nama" id="nama" value="{{ uid_to_edit.nama }}" placeholder="Name" required>
             <input type="submit"></input>
         </form>
         
