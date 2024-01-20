@@ -6,7 +6,7 @@ from app.utils import check_admin_session, check_user_session, verify_reset_toke
 from werkzeug.security import generate_password_hash, check_password_hash
 import base64
 import pytz
-from datetime import datetime
+from datetime import datetime, timedelta
 
 database = {'last_uid': None}
 
@@ -31,7 +31,11 @@ def home():
 @check_admin_session
 def admin():
     try:
-        images = photoEvidence.query.all()
+        # Calculate the date for three days ago
+        three_days_ago = datetime.utcnow() - timedelta(days=3)
+
+        # Query images with access_time within the last three days
+        images = photoEvidence.query.filter(photoEvidence.access_time >= three_days_ago).all()
 
         # Check if images are found in the database
         if images:
