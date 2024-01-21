@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Schedule</title>
+    <title>Room Schedule</title>
     <link rel="stylesheet" href="/static/css/style.css">
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
     <style>
@@ -76,7 +76,7 @@
   <div class="navbar">
     <a class="navbar-logo" href="/dashboard">
       <img src="/static/images/key.png" alt="Logo">
-      <span class="navbar-text">Smart Door Lock</span>
+      <span class="navbar-text">LOCKLOGIC</span>
     </a>
     <nav class="nav-items">
       <a href="/dashboard/room-info/">Room Info</a>
@@ -116,11 +116,7 @@
     <!-- ... Bagian Footer tetap sama ... -->
     <div class="copy" id="copyright"></div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var currentYear = new Date().getFullYear();
-            document.getElementById('copyright').innerText = 'Hak Cipta © ' + currentYear + ' Kelompok 5 Politeknik Negeri Jakarta';
-        });
+    <script src="/static/js/footer.js">
     </script>
   </footer>
 </body>

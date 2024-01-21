@@ -1,8 +1,7 @@
-# app/routes.py
 from flask import render_template, request, redirect, url_for, session, flash, jsonify
 from app import app, db
 from app.models import Logaccess, User, Uid, Schedule, photoEvidence
-from app.utils import check_admin_session, check_user_session, verify_reset_token, generate_reset_token, send_reset_email, total_access_granted
+from app.utils import check_session, verify_reset_token, generate_reset_token, send_reset_email, total_access_granted
 from werkzeug.security import generate_password_hash, check_password_hash
 import base64
 import pytz
@@ -11,24 +10,24 @@ from datetime import datetime, timedelta
 database = {'last_uid': None}
 
 @app.route('/dashboard/room-info/')
-@check_user_session
+@check_session(allowed_roles=['user'])
 def room_info():
     return render_template('room_info.html')
 
 # Route untuk schedule
 @app.route('/dashboard/room-schedule/')
-@check_user_session
+@check_session(allowed_roles=['user'])
 def schedule():
     schedules = Schedule.query.all()
     return render_template('schedule.html', schedules=schedules)
 
 @app.route('/dashboard')
-@check_user_session
+@check_session(allowed_roles=['user'])
 def home():
     return render_template('homepage.html')
 
 @app.route('/admin')
-@check_admin_session
+@check_session(allowed_roles=['admin'])
 def admin():
     try:
         # Calculate the date for three days ago
@@ -52,7 +51,7 @@ def admin():
         return render_template('adminpage.html', images=[], error_message=error_message)
 
 @app.route('/admin/manage-room-schedule')
-@check_admin_session
+@check_session(allowed_roles=['admin'])
 def manage_schedule():
     schedules = Schedule.query.all()
     return render_template('manage_schedule.html', schedules=schedules)
@@ -110,13 +109,13 @@ def access_log():
     return jsonify(data)
 
 @app.route('/admin/manage_uid')
-@check_admin_session
+@check_session(allowed_roles=['admin'])
 def manage_uid():
     uid_list = Uid.query.all()
     return render_template('manage_uid.html', uid_list=uid_list)
     
 @app.route('/admin/delete_uid/<int:uid_id>', methods=['POST'])
-@check_admin_session
+@check_session(allowed_roles=['admin'])
 def delete_uid(uid_id):
     uid_to_delete = Uid.query.get(uid_id)
     if uid_to_delete:
@@ -128,7 +127,7 @@ def delete_uid(uid_id):
     return redirect(url_for('manage_uid'))
 
 @app.route('/admin/edit_uid/<int:uid_id>', methods=['GET', 'POST'])
-@check_admin_session
+@check_session(allowed_roles=['admin'])
 def edit_uid(uid_id):
     if request.method == 'GET':
         uid_to_edit = Uid.query.get(uid_id)
@@ -164,7 +163,7 @@ def add_room_schedule():
     return redirect(url_for('manage_schedule'))
 
 @app.route('/admin/edit_schedule/<int:schedule_id>', methods=['GET', 'POST'])
-@check_admin_session
+@check_session(allowed_roles=['admin'])
 def edit_schedule(schedule_id):
     if request.method == 'GET':
         schedule_to_edit = Schedule.query.get(schedule_id)
@@ -192,7 +191,7 @@ def edit_schedule(schedule_id):
             return redirect(url_for('manage_schedule'))
 
 @app.route('/admin/delete_schedule/<int:schedule_id>', methods=['POST'])
-@check_admin_session
+@check_session(allowed_roles=['admin'])
 def delete_schedule(schedule_id):
     schedule_to_delete = Schedule.query.get(schedule_id)
     if schedule_to_delete:
@@ -204,7 +203,7 @@ def delete_schedule(schedule_id):
     return redirect(url_for('manage_schedule'))
 
 @app.route('/admin/account-registration', methods=['GET', 'POST'])
-@check_admin_session
+@check_session(allowed_roles=['admin'])
 def registrasi():
     if request.method == 'POST':
         email = request.form['email']
@@ -339,7 +338,7 @@ def reset_password(token):
     return render_template('reset_password.html', token=token)
 
 @app.route('/regis_uid', methods=['GET', 'POST'])
-@check_admin_session
+@check_session(allowed_roles=['admin'])
 def regis_uid():
     if request.method == 'POST':
         uid = database['last_uid']
