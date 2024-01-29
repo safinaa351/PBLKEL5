@@ -7,6 +7,8 @@ class Logaccess(db.Model):
     waktu = db.Column(db.DateTime,nullable=False)
     access = db.Column(db.String(50), nullable=False)
 
+    uid = db.relationship('Uid', backref='access_logs', foreign_keys=[no_rfid], uselist=False)
+
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(50), unique = True, nullable=False)
